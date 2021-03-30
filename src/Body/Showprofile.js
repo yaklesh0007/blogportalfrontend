@@ -1,6 +1,9 @@
 import axios from 'axios'
 import React, { Component,state,inputhandler } from 'react'
-import {Col, Row} from 'reactstrap'
+import {Col, Row, CardTitle, CardSubtitle, CardText,CardBody,Card,Button,Input,
+Label,FormGroup,Form,CardImg
+} from 'reactstrap'
+import {Redirect} from 'react-router-dom'
 export default class Showprofile extends Component {
     state={
         email:"",
@@ -20,11 +23,12 @@ export default class Showprofile extends Component {
       componentDidMount(){
           axios.get('http://localhost:90/user/profile',this.state.config)
           .then((response)=>{
+            console.log(response)
               this.setState({
-                  email:this.response.data.email,
-                  username:this.response.data.username,
-                phone:this.response.data.phone,
-                gender:this.response.data.gender
+                  email:this.response.data.data.email,
+                  username:this.response.data.data.username,
+                phone:this.response.data.data.phone,
+                gender:this.response.data.data.gender
 
               })
 
@@ -35,9 +39,9 @@ export default class Showprofile extends Component {
       }
     render()
     {
-        if(localStorage.getItem('token')){
-            return <Redirect to='/login'/>
-        }
+        // if(localStorage.getItem('token')){
+        //     return <Redirect to='/login'/>
+        // }
         return (
             <div>
                 <Row>

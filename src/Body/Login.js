@@ -1,7 +1,6 @@
 import React, { Component, state, login,chklogin} from 'react'
 import {Form ,Button, Jumbotron,Row,Col} from 'react-bootstrap'
-import {UncontrolledAlert} from 'reactstrap'
-import {Redirect} from 'react-router-dom'
+
 import axios from 'axios'
 class Login extends Component{
 
@@ -9,7 +8,8 @@ class Login extends Component{
     email:'',
     password:'',
     chklogin:false,
-    message:''
+    message:'',
+    errormessage:''
   }
   login=(e)=>{
     e.preventDefault();
@@ -29,7 +29,9 @@ class Login extends Component{
       })
     })
     .catch((err)=>{
-     
+     this.setState({
+       errormessage:err.response.data.message
+     })
     })
   }
     render(){
@@ -58,10 +60,11 @@ class Login extends Component{
                     <div className="card-header">
                         <h2 className="text-success">Login page!!</h2>
 
-                        <p>{this.state.message}</p>
+                        <p className="alert-primary">{this.state.message}</p>
                         <p className="text-primary">
       {this.state.chklogin}
       </p>
+      <p className="alert-danger">{this.state.errormessage}</p>
                     </div>
                         <Form onSubmit={this.login}>
               <Form.Group controlId="formBasicEmail">
@@ -69,7 +72,7 @@ class Login extends Component{
                 <Form.Control type="email" placeholder="Enter email" 
                   value={this.state.email}
                 onChange={(event)=>this.setState({email:event.target.value})}
-                />
+                required/>
                 <Form.Text className="text-muted">
                   We'll never share your email with anyone else.
                 </Form.Text>
@@ -79,7 +82,8 @@ class Login extends Component{
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" placeholder="Password"
                 value={this.state.password}
-                onChange={(event)=>this.setState({password:event.target.value})} />
+                onChange={(event)=>this.setState({password:event.target.value})}
+                required />
               </Form.Group>
               <Form.Group controlId="formBasicCheckbox">
                 <Form.Check type="checkbox" label="Check me out" />

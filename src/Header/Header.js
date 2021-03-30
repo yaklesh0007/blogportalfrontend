@@ -35,7 +35,7 @@ const Header = (props) => {
     localStorage.removeItem('token'),
     window.location.href='/reg'
   )
-  if(localStorage.getItem('token') && localStorage.getItem('userType')=='admin')
+  if(localStorage.getItem('token') && localStorage.getItem('userType')==='admin')
   {
     var menu=
     <div>
@@ -88,7 +88,7 @@ const Header = (props) => {
       </Navbar>
     </div>
   }
-  else if(localStorage.getItem('token') && localStorage.getItem('userType')=='normaluser'){
+  else if(localStorage.getItem('token') && localStorage.getItem('userType')==='normaluser'){
     var menu=
     <div>
       <Navbar color="dark" dark expand="md">
