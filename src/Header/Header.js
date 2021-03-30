@@ -19,27 +19,35 @@ import {
   Input
   
 } from 'reactstrap';
-
+import HomeIcon from '@material-ui/icons/Home';
+import PhoneIcon from '@material-ui/icons/Phone';
+import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AddIcon from '@material-ui/icons/Add';
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
-
-  return (
-    <div className="sticky-top navigation">
+  if(localStorage.getItem('token') && localStorage.getItem('userType')=='admin')
+  {
+    var menu=
+    <div>
       <Navbar color="dark" dark expand="md">
-        <NavbarBrand href="/">Blog</NavbarBrand>
+        <NavbarBrand href="/"><ViewHeadlineIcon/>Blog</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar >
             <NavItem>
-              <NavLink href="/">Home</NavLink>
+              <NavLink href="/"><HomeIcon/>Home</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/contact">Contact Us</NavLink>
+              <NavLink href="/contact"><PhoneIcon/>Contact Us</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/addblog">Add blog</NavLink>
+              <NavLink href="/addblog"><AddIcon/>Add blog</NavLink>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
@@ -47,14 +55,14 @@ const Header = (props) => {
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem>
-                  Show profile
+                  Show profile <AccountCircleIcon/>
                 </DropdownItem>
                 <DropdownItem>
                   Show your blog
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>
-                  Logout
+                  Logout <ExitToAppIcon/>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
@@ -71,10 +79,104 @@ const Header = (props) => {
               />
          </FormGroup>
           </Form>
-          <Button color="success" className="ml-4" href="/login">Login</Button>
-          <Button color="success" className="ml-4" href="/reg">Register</Button>
+          
         </Collapse>
       </Navbar>
+    </div>
+  }
+  else if(localStorage.getItem('token') && localStorage.getItem('userType')=='normaluser'){
+    var menu=
+    <div>
+      <Navbar color="dark" dark expand="md">
+        <NavbarBrand href="/"><ViewHeadlineIcon/>Blog</NavbarBrand>
+        <NavbarToggler onClick={toggle} />
+        <Collapse isOpen={isOpen} navbar>
+          <Nav className="mr-auto" navbar >
+            <NavItem>
+              <NavLink href="/"><HomeIcon/>Home</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/contact"><PhoneIcon/>Contact Us</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/addblog"><AddIcon/>Add blog</NavLink>
+            </NavItem>
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>
+                More
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem>
+                  Show profile <AccountCircleIcon/>
+                </DropdownItem>
+                <DropdownItem>
+                  Show your blog
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>
+                  Logout<ExitToAppIcon/>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </Nav>
+          <Form>
+          <FormGroup>
+              
+              <Input
+                type="search"
+                name="search"
+                id="exampleSearch"
+                placeholder="search"
+                className="mt-4"
+              />
+         </FormGroup>
+          </Form>
+          
+        </Collapse>
+      </Navbar>
+    </div>
+  }
+  else{
+      var menu=
+      <div>
+         <Navbar color="dark" dark expand="md">
+        <NavbarBrand href="/"><ViewHeadlineIcon/>Blog</NavbarBrand>
+        <NavbarToggler onClick={toggle} />
+        <Collapse isOpen={isOpen} navbar>
+          <Nav className="mr-auto" navbar >
+            <NavItem>
+              <NavLink href="/"><HomeIcon></HomeIcon>Home</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/contact"><PhoneIcon/>Contact Us</NavLink>
+            </NavItem>
+            
+          </Nav>
+          <Form>
+          <FormGroup>
+              
+              <Input
+                type="search"
+                name="search"
+                id="exampleSearch"
+                placeholder="search"
+                className="mt-4"
+              />
+         </FormGroup>
+          </Form>
+          <Button color="success" className="ml-4" href="/login"><LockOpenIcon></LockOpenIcon>Login</Button>
+          <Button color="success" className="ml-4" href="/reg"><PersonAddIcon/>Register</Button>
+        </Collapse>
+      </Navbar>
+      </div>
+
+      
+  }
+  return (
+    <div className="sticky-top navigation">
+      {
+        menu
+      }
     </div>
   );
 }

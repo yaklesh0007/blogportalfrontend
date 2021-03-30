@@ -31,7 +31,7 @@ class Login extends Component{
     render(){
       // redirect
       if(chklogin===true){
-        return <Redirect to='/dashboard'/>
+        return <Redirect to='/'/>
       }
     
     return (
