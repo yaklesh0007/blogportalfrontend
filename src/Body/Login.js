@@ -1,5 +1,6 @@
 import React, { Component, state, login,chklogin} from 'react'
 import {Form ,Button, Jumbotron,Row,Col} from 'react-bootstrap'
+import {UncontrolledAlert} from 'reactstrap'
 import {Redirect} from 'react-router-dom'
 import axios from 'axios'
 class Login extends Component{
@@ -7,7 +8,8 @@ class Login extends Component{
   state={
     email:'',
     password:'',
-    chklogin:false
+    chklogin:false,
+    message:''
   }
   login=(e)=>{
     e.preventDefault();
@@ -20,23 +22,33 @@ class Login extends Component{
       console.log(response)
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('userType', response.data.userType)
-      this.state({
-        chklogin:true
+      this.setState({
+        chklogin:true,
+        message:response.data.message
+
       })
     })
     .catch((err)=>{
-      console.log(err)
+     
     })
   }
     render(){
       // redirect
-      if(chklogin===true){
-        return <Redirect to='/'/>
+      if(localStorage.getItem('token')){
+        window.location.href='/'
+        // return <Redirect to='/'/>
       }
+      // if(this.state.message){
+      //   var msg=this.state.message
+      // }
     
     return (
         <div>
+        
         <Row>
+        
+       
+    
           <Col>
           <img src="https://cdn.pixabay.com/photo/2016/02/19/10/00/laptop-1209008_960_720.jpg"
                   alt="Image of technology" className="image_reg"></img>
@@ -45,6 +57,11 @@ class Login extends Component{
           <Jumbotron>
                     <div className="card-header">
                         <h2 className="text-success">Login page!!</h2>
+
+                        <p>{this.state.message}</p>
+                        <p className="text-primary">
+      {this.state.chklogin}
+      </p>
                     </div>
                         <Form onSubmit={this.login}>
               <Form.Group controlId="formBasicEmail">

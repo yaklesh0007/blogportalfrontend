@@ -7,6 +7,7 @@ import Home from './Home'
 import Updateblog from './UpdateBlog'
 import addblog from './AddBlog'
 import contact from './Contact'
+import showprofile from './Showprofile'
 class Body extends Component {
     render(){
     return (
@@ -21,6 +22,7 @@ class Body extends Component {
                     <Route path="/updateblog/:id" exact component={Updateblog}/>
                      <Route path="/addblog" exact component={addblog}/>
                      <Route path="/contact" exact component={contact}/>
+                     <Route path="/showprofile" exact component={showprofile}/>
                     </Col>
                    
                 </Row>

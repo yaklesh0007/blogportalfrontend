@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState ,log} from 'react';
 import {
   Collapse,
   Navbar,
@@ -26,11 +26,15 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import AddIcon from '@material-ui/icons/Add';
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
+
+  const logout=()=> log(
+    localStorage.removeItem('token'),
+    window.location.href='/reg'
+  )
   if(localStorage.getItem('token') && localStorage.getItem('userType')=='admin')
   {
     var menu=
@@ -47,21 +51,21 @@ const Header = (props) => {
               <NavLink href="/contact"><PhoneIcon/>Contact Us</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/addblog"><AddIcon/>Add blog</NavLink>
+              <NavLink href="/addblog">Add blog</NavLink>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
                 More
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem>
+                <DropdownItem href="/showprofile">
                   Show profile <AccountCircleIcon/>
                 </DropdownItem>
                 <DropdownItem>
                   Show your blog
                 </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>
+                <DropdownItem onClick={logout}>
                   Logout <ExitToAppIcon/>
                 </DropdownItem>
               </DropdownMenu>
@@ -99,21 +103,21 @@ const Header = (props) => {
               <NavLink href="/contact"><PhoneIcon/>Contact Us</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/addblog"><AddIcon/>Add blog</NavLink>
+              <NavLink href="/addblog">Add blog</NavLink>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
                 More
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem>
+                <DropdownItem href="/showprofile">
                   Show profile <AccountCircleIcon/>
                 </DropdownItem>
                 <DropdownItem>
                   Show your blog
                 </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>
+                <DropdownItem onClick={logout}>
                   Logout<ExitToAppIcon/>
                 </DropdownItem>
               </DropdownMenu>
