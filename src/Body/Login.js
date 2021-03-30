@@ -59,12 +59,13 @@ class Login extends Component{
           <Jumbotron>
                     <div className="card-header">
                         <h2 className="text-success">Login page!!</h2>
-
-                        <p className="alert-primary">{this.state.message}</p>
-                        <p className="text-primary">
-      {this.state.chklogin}
-      </p>
-      <p className="alert-danger">{this.state.errormessage}</p>
+                        
+                        <div class="alert alert-danger" role="alert">
+                        {this.state.errormessage}
+                            </div>
+                        <div class="alert alert-success" role="alert">
+                        {this.state.message}
+                            </div>
                     </div>
                         <Form onSubmit={this.login}>
               <Form.Group controlId="formBasicEmail">
@@ -83,12 +84,12 @@ class Login extends Component{
                 <Form.Control type="password" placeholder="Password"
                 value={this.state.password}
                 onChange={(event)=>this.setState({password:event.target.value})}
-                required />
+                required minLength="6"/>
               </Form.Group>
               <Form.Group controlId="formBasicCheckbox">
                 <Form.Check type="checkbox" label="Check me out" />
               </Form.Group>
-              <Button variant="primary" type="submit">
+              <Button variant="primary" type="submit" block>
                 Submit
               </Button>
             </Form>
