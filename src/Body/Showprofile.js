@@ -13,7 +13,8 @@ export default class Showprofile extends Component {
         phone:"",
         config : {
             headers : {'authorization': `Bearer ${localStorage.getItem('token')}`}
-        }
+        },
+        image:''
       }
       inputhandler=(e)=>{
         this.setState({
@@ -25,11 +26,11 @@ export default class Showprofile extends Component {
           .then((response)=>{
             console.log(response)
               this.setState({
-                  email:this.response.data.data.email,
-                  username:this.response.data.data.username,
-                phone:this.response.data.data.phone,
-                gender:this.response.data.data.gender
-
+                  email:this.response.data.email,
+                  username:this.response.data.username,
+                phone:this.response.data.phone,
+                gender:this.response.gender,
+                image:this.response.data.image
               })
 
           })
@@ -39,9 +40,9 @@ export default class Showprofile extends Component {
       }
     render()
     {
-        // if(localStorage.getItem('token')){
-        //     return <Redirect to='/login'/>
-        // }
+        if(!localStorage.getItem('token')){
+            return <Redirect to='/login'/>
+        }
         return (
             <div>
                 <Row>
@@ -91,12 +92,12 @@ export default class Showprofile extends Component {
                     </Col>
                     <Col>
                     <Card>
-                    <CardImg top className="image_profile" src="/assets/318x180.svg" alt="Card image cap" />
+                    <CardImg top className="image_profile" src={this.state.image} alt={this.state.username} />
                     <CardBody>
-                    <CardTitle tag="h6" >email: {this.state.email}</CardTitle>
-                    <CardSubtitle tag="h6" className="mb-2 text-muted">Password: {this.state.username}</CardSubtitle>
+                    <CardTitle tag="h6" >Email: {this.state.email}</CardTitle>
+                    <CardSubtitle tag="h6" >Username: {this.state.username}</CardSubtitle>
                     <CardText>Gender: {this.state.gender}</CardText>
-                    <CardText>Phone :{this.state.phone}</CardText>
+                    <CardText>Phone: {this.state.phone}</CardText>
                     
                     </CardBody>
                      </Card>
