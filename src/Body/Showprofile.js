@@ -1,5 +1,6 @@
 import axios from 'axios'
-import React, { Component,state,inputhandler } from 'react'
+import React, { Component,state,inputhandler, updateprofile,
+filehandler} from 'react'
 import {Col, Row, CardTitle, CardSubtitle, CardText,CardBody,Card,Button,Input,
 Label,FormGroup,Form,CardImg
 } from 'reactstrap'
@@ -19,12 +20,18 @@ export default class Showprofile extends Component {
         config : {
             headers : {'authorization': `Bearer ${localStorage.getItem('token')}`}
         },
-        image:''
+        image:'',
+        message:''
       }
       inputhandler=(e)=>{
         this.setState({
             [e.target.name]:e.target.value
         })
+    }
+    filehandler=(e)=>{
+      this.setState({
+        image : e.target.files[0]
+    })
     }
       componentDidMount(){
           axios.get('http://localhost:90/user/profile',this.state.config)
@@ -39,8 +46,28 @@ export default class Showprofile extends Component {
               })
 
           })
-          .catch((e)=>{
+          .catch((er)=>{
+             console.log(er)
+          })
+      }
+      updateprofile=(e)=>{
+        e.preventDefault();
+        const data =new FormData()
 
+          data.append('username',this.state.username)
+          data.append('gender',this.state.gender)
+          data.append('phone',this.state.phone)
+          data.append('image',this.state.image)
+          axios.put('http://localhost:90/user/update' , data , this.state.config)
+          
+          .then((response)=>{
+                console.log(response)
+                this.setState({
+                  message:response.data.message
+                })
+          })
+          .catch((e)=>{
+              console.log(e)
           })
       }
     render()
@@ -51,9 +78,10 @@ export default class Showprofile extends Component {
         return (
             <div>
                 <Row>
-                    <Col>
+                    <Col className="jumbotron">
                     <h3 className="text-success card-header">Update Your Profile</h3>
-                 <Form>
+                    <p className="text-primary">{this.state.message}</p>
+                 <Form className="mt-2">
       {/* <FormGroup>
         <Label for="email" className="text-primary"><EmailIcon color="secondary" className="mr-2"></EmailIcon><b>Email</b></Label>
         <Input type="email" name="email" id="email" placeholder="Enter Email"
@@ -87,7 +115,8 @@ export default class Showprofile extends Component {
       <FormGroup>
         <Label for="phone" className="text-primary"><PhoneIcon color="secondary" className="mr-2"></PhoneIcon><b>Phone</b></Label>
         <Input type="number" name="phone" id="Phone" value={this.state.phone}
-            onChange={this.inputhandler}
+            onChange={this.inputhandler} maxLength="13"
+            minLength="10"
         />
       </FormGroup>
       
