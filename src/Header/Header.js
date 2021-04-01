@@ -29,6 +29,7 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import BookIcon from '@material-ui/icons/Book';
 import InfoIcon from '@material-ui/icons/Info';
+import PostAddIcon from '@material-ui/icons/PostAdd';
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -57,7 +58,7 @@ const Header = (props) => {
             </NavItem>
             <NavItem>
               <NavLink href="/addblog" activeClassName="navbar__link--active"
-              active={window.location.pathname === '/addblog'}>Add blog</NavLink>
+              active={window.location.pathname === '/addblog'}><PostAddIcon/>Add blog</NavLink>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
@@ -115,7 +116,7 @@ const Header = (props) => {
             </NavItem>
             <NavItem>
               <NavLink href="/addblog" activeClassName="navbar__link--active"
-              active={window.location.pathname === '/addblog'}>Add blog</NavLink>
+              active={window.location.pathname === '/addblog'}><PostAddIcon/>Add blog</NavLink>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
