@@ -8,33 +8,3 @@
 .copyright{
   text-align: center;
 }
-.card-img-top{
-  height: 500px;
-}
-.img-round{
-  border-radius: 50%;
-  height: 50px;
-  width: 50px;
-}
-.headeremail{
-  text-align: left;
-  margin-top: 10px;
-}
-.colmun_right{
-  float: left;
-}
-.img_post{
-  padding: 10px;
-  width: 450px;
-  height: 450px;
-}
-.image_reg{
-  width: fit-content;
-  width: 500px;
-  height: 100%;
-}
-.image_profile{
-  width: 250px;
-  height: 450px;
-  padding: 50px;
-}

@@ -63,8 +63,8 @@ export default class Home extends Component {
         <Col>
             <p className="text-primary mt-3">{blog.userID.email}</p>
         </Col>
-        <Col className="colmun_right">
-        <UncontrolledDropdown>
+        <Col>
+        <UncontrolledDropdown className="colmun_right">
       <DropdownToggle caret color="primary">
         <MoreVertIcon></MoreVertIcon>
       </DropdownToggle>
