@@ -57,15 +57,15 @@ export default class Home extends Component {
         <Card className="mb-2"> 
         <CardHeader>
         <Row >
-        <Col >
+        <Col xs="1" >
             <img className="img-round" alt={blog.userID.username} src={'http://localhost:90/images/'+blog.userID.image}></img>
         </Col>
-        <Col>
-            <p className="text-primary mt-3">{blog.userID.email}</p>
+        <Col xs="8">
+            <p className="text-success mt-3 float-left"><i><u>#{blog.userID.username}</u></i></p>
         </Col>
-        <Col>
-        <UncontrolledDropdown className="colmun_right">
-      <DropdownToggle caret color="primary">
+        <Col xs="3">
+        <UncontrolledDropdown>
+      <DropdownToggle caret color="primary" className="float-right">
         <MoreVertIcon></MoreVertIcon>
       </DropdownToggle>
       <DropdownMenu >
@@ -93,17 +93,17 @@ export default class Home extends Component {
           <CardText> {blog.category}</CardText>
         </CardBody>
         <CardFooter>
-        <Row xs="3">
-            <Col>
+        <Row>
+            <Col xs="2">
                 <Button color="danger"><FavoriteIcon className="mr-2"></FavoriteIcon> Love</Button>
             </Col>
-            <Col >
+            <Col xs="8">
                 <Form>
-                    <Input type="text" name="commentBody" placeholder="Add Your Comment"></Input>
+                    <Input type="text" name="commentBody" placeholder="Add Your Comment" className="rounded"></Input>
                 </Form>
             </Col>
-            <Col>
-                <Button color="primary"><ModeCommentIcon className="mr-2"></ModeCommentIcon> Comment</Button>
+            <Col xs="2">
+                <Button color="primary" className="float-right"><ModeCommentIcon className="mr-2"></ModeCommentIcon> Comment</Button>
             </Col>
             </Row>
         </CardFooter>
