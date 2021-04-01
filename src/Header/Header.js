@@ -1,5 +1,6 @@
 
 import React, { useState ,log} from 'react';
+
 import {
   Collapse,
   Navbar,
@@ -26,6 +27,8 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import BookIcon from '@material-ui/icons/Book';
+import InfoIcon from '@material-ui/icons/Info';
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -40,33 +43,39 @@ const Header = (props) => {
     var menu=
     <div>
       <Navbar color="dark" dark expand="md">
-        <NavbarBrand href="/"><ViewHeadlineIcon/>Blog</NavbarBrand>
+        <NavbarBrand to="/"><ViewHeadlineIcon/>Blog</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar >
             <NavItem>
-              <NavLink href="/"><HomeIcon/>Home</NavLink>
+              <NavLink href="/" activeClassName="navbar__link--active"
+              active={window.location.pathname === '/'}><HomeIcon/>Home</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/contact"><PhoneIcon/>Contact Us</NavLink>
+              <NavLink href="/contact" activeClassName="navbar__link--active"
+              active={window.location.pathname === '/contact'}><PhoneIcon/>Contact Us</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/addblog">Add blog</NavLink>
+              <NavLink href="/addblog" activeClassName="navbar__link--active"
+              active={window.location.pathname === '/addblog'}>Add blog</NavLink>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
                 More
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem href="/showprofile">
-                  Show profile <AccountCircleIcon/>
+                <DropdownItem href="/showprofile" activeClassName="navbar__link--active"
+                active={window.location.pathname === '/showprofile'}>
+                  Show profile <AccountCircleIcon className="ml-2"/>
                 </DropdownItem>
-                <DropdownItem>
-                  Show your blog
+                <DropdownItem activeClassName="navbar__link--active" to="/showblog"
+                active={window.location.pathname === '/showblog'}
+                >
+                  Show your blog <BookIcon className="ml-2"></BookIcon>
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem onClick={logout}>
-                  Logout <ExitToAppIcon/>
+                  Logout <ExitToAppIcon className="ml-2"/>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
@@ -97,28 +106,33 @@ const Header = (props) => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar >
             <NavItem>
-              <NavLink href="/"><HomeIcon/>Home</NavLink>
+              <NavLink href="/" activeClassName="navbar__link--active"
+              active={window.location.pathname === '/'}><HomeIcon/>Home</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/contact"><PhoneIcon/>Contact Us</NavLink>
+              <NavLink href="/contact" activeClassName="navbar__link--active"
+              active={window.location.pathname === '/contact'}><PhoneIcon/>Contact Us</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/addblog">Add blog</NavLink>
+              <NavLink href="/addblog" activeClassName="navbar__link--active"
+              active={window.location.pathname === '/addblog'}>Add blog</NavLink>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
                 More
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem href="/showprofile">
-                  Show profile <AccountCircleIcon/>
+                <DropdownItem href="/showprofile" activeClassName="navbar__link--active"
+                active={window.location.pathname === '/showprofile'}>
+                  Show profile <AccountCircleIcon className="ml-2"/>
                 </DropdownItem>
-                <DropdownItem>
-                  Show your blog
+                <DropdownItem activeClassName="navbar__link--active" to='/showblog'
+                active={window.location.pathname === '/showblog'}>
+                  Show your blog <BookIcon className="ml-2"></BookIcon>
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem onClick={logout}>
-                  Logout<ExitToAppIcon/>
+                  Logout<ExitToAppIcon className="ml-2"/>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
@@ -149,12 +163,17 @@ const Header = (props) => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar >
             <NavItem>
-              <NavLink href="/"><HomeIcon></HomeIcon>Home</NavLink>
+              <NavLink href="/" activeClassName="navbar__link--active"
+              active={window.location.pathname === '/'}><HomeIcon></HomeIcon>Home</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/contact"><PhoneIcon/>Contact Us</NavLink>
+              <NavLink href="/contact" activeClassName="navbar__link--active"
+              active={window.location.pathname === '/contact'}><PhoneIcon/>Contact Us</NavLink>
             </NavItem>
-            
+            <NavItem>
+              <NavLink href="/about" activeClassName="navbar__link--active"
+              active={window.location.pathname === '/about'}><InfoIcon/>About Us</NavLink>
+            </NavItem>
           </Nav>
           <Form>
           <FormGroup>
@@ -168,8 +187,10 @@ const Header = (props) => {
               />
          </FormGroup>
           </Form>
-          <Button color="success" className="ml-4" href="/login"><LockOpenIcon></LockOpenIcon>Login</Button>
-          <Button color="success" className="ml-4" href="/reg"><PersonAddIcon/>Register</Button>
+          <Button color="success" className="ml-4" href="/login" 
+          active={window.location.pathname === '/login'}><LockOpenIcon></LockOpenIcon>Login</Button>
+          <Button color="success" className="ml-4" href="/reg"
+          active={window.location.pathname === '/reg'}><PersonAddIcon/>Register</Button>
         </Collapse>
       </Navbar>
       </div>

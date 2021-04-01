@@ -11,7 +11,7 @@ export default class Contact extends Component {
           lat: 59.95,
           lng: 30.33
         },
-        zoom: 11
+        zoom: 17
       };
       
     render() {
@@ -27,8 +27,8 @@ export default class Contact extends Component {
                         onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
                       >
                         <AnyReactComponent
-                          lat={59.955413}
-                          lng={30.337844}
+                          lat={27.7052354}
+                          lng={85.3294158}
                           text="My Marker"
                         />
                       </GoogleMapReact>
