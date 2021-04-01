@@ -1,5 +1,5 @@
 import React, { Component, state, inputhandler, Addblog, e , filehandler } from 'react'
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import axios from 'axios'
 export default class AddBlog extends Component {
     state={
@@ -41,13 +41,22 @@ export default class AddBlog extends Component {
       }
     render() {
         return (
-            <div className="card jumbotron">
+          <div>
+            <Row>
+              <Col>
+              <img src="https://cdn.pixabay.com/photo/2018/03/19/18/20/tea-time-3240766_960_720.jpg"
+                  alt="Image of tea time poetry" className="image_reg"></img>
+              </Col>
+              <Col>
+              <div className="card jumbotron">
             <h3 className="text-success">Add Blog</h3>
                  <Form>
       <FormGroup>
         <Label for="title">Title</Label>
         <Input type="text" name="title" id="title" placeholder="Enter title"
-        value={this.state.title} onChange={this.inputhandler}/>
+        value={this.state.title} onChange={this.inputhandler} required
+          maxLength="50" minLength="4"
+        />
       </FormGroup>
       
       <FormGroup>
@@ -67,19 +76,26 @@ export default class AddBlog extends Component {
         <Label for="exampleFile">File</Label>
         <Input type="file" name="image" id="exampleFile"
             onChange={this.filehandler}
-        />
+        required/>
         
       </FormGroup>
       <FormGroup>
         <Label for="description">Description</Label>
         <Input type="textarea" name="description" id="description" value={this.state.description}
             onChange={this.inputhandler}
+        required
+          maxLength="200"
         />
       </FormGroup>
       
       
       <Button onClick={this.Addblog} color="primary" block>Submit</Button>
     </Form>
+            </div>
+              </Col>
+            </Row>
+          
+            
             </div>
         )
     }
