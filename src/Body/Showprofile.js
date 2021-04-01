@@ -36,13 +36,13 @@ export default class Showprofile extends Component {
       componentDidMount(){
           axios.get('http://localhost:90/user/profile',this.state.config)
           .then((response)=>{
-            console.log(response)
+            console.log(response.data.data)
               this.setState({
-                  email:this.response.data.email,
-                  username:this.response.data.username,
-                phone:this.response.data.phone,
-                gender:this.response.gender,
-                image:this.response.data.image
+                  email:response.data.data.email,
+                  username:response.data.data.username,
+                phone:response.data.data.phone,
+                gender:response.data.data.gender,
+                image:response.data.data.image
               })
 
           })
@@ -126,7 +126,7 @@ export default class Showprofile extends Component {
                     </Col>
                     <Col>
                     <Card>
-                    <CardImg top className="image_profile" src={this.state.image} alt={this.state.username} />
+                    <CardImg top className="rounded-circle mx-auto d-block image_profile " src={'http://localhost:90/images/'+this.state.image} alt={this.state.username} />
                     <CardBody>
                     <CardTitle tag="h6" ><EmailIcon color="secondary" className="mr-2"></EmailIcon> {this.state.email}</CardTitle>
                     <CardSubtitle tag="h6" ><AccountBoxIcon color="secondary" className="mr-2"></AccountBoxIcon> {this.state.username}</CardSubtitle>

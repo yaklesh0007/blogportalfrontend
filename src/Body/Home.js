@@ -11,6 +11,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import ModeCommentIcon from '@material-ui/icons/ModeComment';
 export default class Home extends Component {
     state = {
         blogs : [],
@@ -57,10 +58,10 @@ export default class Home extends Component {
         <CardHeader>
         <Row >
         <Col >
-            <img className="img-round" alt="Image of user" src="https://miscmedia-9gag-fun.9cache.com/images/thumbnail-facebook/1557216671.5403_tunyra_n.jpg"></img>
+            <img className="img-round" alt={blog.userID.username} src={'http://localhost:90/images/'+blog.userID.image}></img>
         </Col>
         <Col>
-            <p className="text-primary mt-3">Email</p>
+            <p className="text-primary mt-3">{blog.userID.email}</p>
         </Col>
         <Col className="colmun_right">
         <UncontrolledDropdown>
@@ -72,7 +73,7 @@ export default class Home extends Component {
       <EditIcon></EditIcon> 
       Update</Link></DropdownItem>
             
-            <DropdownItem><button onClick={this.deleteblog.bind(this, blog._id, blog.userID)}
+            <DropdownItem><button onClick={this.deleteblog.bind(this, blog._id, blog.userID._id)}
              className="btn btn-danger"><DeleteIcon></DeleteIcon>Delete</button></DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>
@@ -81,7 +82,7 @@ export default class Home extends Component {
         </CardHeader>
         <CardImg  
         className="img_post"
-         src="https://images.unsplash.com/photo-1610983127778-17e80dfabdd0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80" 
+         src={'http://localhost:90/images/'+blog.image} 
          alt={"image of "+blog.title } 
             
         />
@@ -92,14 +93,17 @@ export default class Home extends Component {
           <CardText> {blog.category}</CardText>
         </CardBody>
         <CardFooter>
-        <Row xs="2">
+        <Row xs="3">
             <Col>
-                <Button color="primary"><FavoriteIcon></FavoriteIcon> Love</Button>
+                <Button color="danger"><FavoriteIcon className="mr-2"></FavoriteIcon> Love</Button>
             </Col>
-            <Col xs="6">
+            <Col >
                 <Form>
                     <Input type="text" name="commentBody" placeholder="Add Your Comment"></Input>
                 </Form>
+            </Col>
+            <Col>
+                <Button color="primary"><ModeCommentIcon className="mr-2"></ModeCommentIcon> Comment</Button>
             </Col>
             </Row>
         </CardFooter>

@@ -32,9 +32,10 @@ export default class Contact extends Component {
                           text="My Marker"
                         />
                       </GoogleMapReact>
+                      
                     </Col>
-                    <Col>
-
+                    <Col className="jumbotron">
+                      
                     </Col>
                 </Row>
             </div>
