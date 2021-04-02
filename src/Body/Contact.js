@@ -1,41 +1,81 @@
-import React, { Component,defaultProps, AIzaSyCPgje2ZsNHbvWaQl3mld44s_FBikbTHhc } from 'react'
-import {Row,Col} from 'reactstrap'
-import GoogleMapReact from 'google-map-react';
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
-const handleApiLoaded = (map, maps) => {
-    // use map and maps objects
-  };
+import React, { Component,state,inputhandler,addfeedback } from 'react'
+import {Row,Col,CardImg, CardHeader,Form, FormGroup, Label, Input, Button} from 'reactstrap'
+import TitleIcon from '@material-ui/icons/Title';
+import DescriptionIcon from '@material-ui/icons/Description';
+import EmailIcon from '@material-ui/icons/Email';
+import axios from 'axios'
+
 export default class Contact extends Component {
-    static defaultProps = {
-        center: {
-          lat: 59.95,
-          lng: 30.33
-        },
-        zoom: 17
-      };
+    state={
+      email:'',
+      title:'',
+      description:'',
+      message:''
+    }
+    inputhandler=(e)=>{
+      this.setState({
+          [e.target.name]:e.target.value
+      })
+  }
+  addfeedback=(e)=>{
+    e.preventDefault();
+    axios.post('http://localhost:90/addfeedback',this.state)
+    .then((responce)=>{
+      console.log(responce.data.data)
+      this.setState({
+        message:responce.data.message
+      })
       
+    })
+    .catch((err)=>{
+      console.log(err)
+      
+    })
+  }
+
     render() {
         return (
             <div>
                 <Row>
                     <Col>
-                    <GoogleMapReact
-                        bootstrapURLKeys={{ key: AIzaSyCPgje2ZsNHbvWaQl3mld44s_FBikbTHhc }}
-                        defaultCenter={this.props.center}
-                        defaultZoom={this.props.zoom}
-                        yesIWantToUseGoogleMapApiInternals
-                        onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
-                      >
-                        <AnyReactComponent
-                          lat={27.7052354}
-                          lng={85.3294158}
-                          text="My Marker"
-                        />
-                      </GoogleMapReact>
-                      
+                    <CardImg top width="500" 
+                    src="https://cdn.pixabay.com/photo/2017/12/02/14/38/contact-us-2993000_960_720.jpg" alt="Image of Contact us" />
                     </Col>
                     <Col className="jumbotron">
-                      
+                    <CardHeader>
+                      <h4> Send Your Feedback !!</h4>
+                      <p className="text-success">{this.state.message}</p>
+                    </CardHeader>
+                    <Form className="mt-4">
+                    <FormGroup row>
+                      <Label for="exampleEmail" sm={2} ><EmailIcon color="secondary"/>Email</Label>
+                      <Col sm={10}>
+                        <Input type="email" name="email" id="exampleEmail" 
+                        placeholder="Someone@gmail.com" required="true"
+                        value={this.state.email} onChange={this.inputhandler} 
+                        />
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Label for="exampleEmail2" sm={2}><TitleIcon color="secondary"/>Title</Label>
+                      <Col sm={10}>
+                        <Input type="text" name="title" id="exampleEmail2" placeholder="Enter Title" 
+                        value={this.state.title} onChange={this.inputhandler}  required="true"/>
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Label for="exampleEmail2" sm={2}>
+                      <DescriptionIcon color="secondary"/>Description</Label>
+                      <Col sm={10}>
+                        <Input type="textarea" name="description" id="exampleEmail2" 
+                        placeholder="Enter Description"  required="true"
+                        value={this.state.description} onChange={this.inputhandler} 
+                        />
+                      </Col>
+                    </FormGroup>
+                    <Button type="submit" className="float-right" color="primary"
+                    onClick={this.addfeedback}>Send Feedback</Button>
+                  </Form>
                     </Col>
                 </Row>
             </div>
