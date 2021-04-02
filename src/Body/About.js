@@ -33,8 +33,9 @@ export default class About extends Component {
                         <CardText className="text-primary"><EmailIcon color="secondary" className="mr-2"></EmailIcon><b><i> softwarica.edu.np </i> </b></CardText>
                         <CardText className="text-info"><ContactPhoneIcon color="secondary" className="mr-2"></ContactPhoneIcon><b> +071-2312313, 9318101313 </b></CardText>
                         </CardBody>
+                        <div className="card_footer_about">
                         <CardFooter>
-                        <CardText className="text-primary"><b>Follow us</b> </CardText>
+                        <CardText className="text"><b>Follow us</b> </CardText>
                             <Row>
                                 <Col>
                                 <IconButton>
@@ -58,6 +59,7 @@ export default class About extends Component {
                                 </Col>
                             </Row>
                         </CardFooter>
+                        </div>
                     </Card>
                     </Col>
                 </Row>
