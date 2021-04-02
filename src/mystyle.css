@@ -45,4 +45,23 @@
   .linkedin-icon:hover{
     color: #270ffd;
   }
+  .footer{
+    background-color: #080338de;
+  }
+  .linkedin-icon{
+    color: white;
+    border-radius: 50px;
+  }
+  .twitter-icon{
+    color: white;
+    border-radius: 50px;
+  }
+  .facebook-icon{
+    color: white;
+    border-radius: 50px;
+  }
+  .youtube-icon{
+    color: white;
+    border-radius: 50px;
+  }
   
