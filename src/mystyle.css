@@ -35,15 +35,19 @@
   }
   .facebook-icon:hover{
     color: rgb(22, 24, 184);
+    background-color: whitesmoke;
   }
   .youtube-icon:hover{
     color: red;
+    background-color: whitesmoke;
   }
   .twitter-icon:hover{
     color: #29b6f6;
+    background-color: whitesmoke;
   }
   .linkedin-icon:hover{
     color: #270ffd;
+    background-color: whitesmoke;
   }
   .footer{
     background-color: #080338de;
@@ -66,5 +70,15 @@
   }
   .card_footer_about{
     background-color: #eb7290;
+  }
+  .navlinks{
+    color: rgb(124, 187, 241);
+  }
+  .navlinks:hover{
+    background-color: aliceblue;
+    color: #0c0355;
+    border-radius: 25px;
+    font-style: italic;
+    text-align: center;
   }
   

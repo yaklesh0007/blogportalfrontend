@@ -21,29 +21,40 @@ export default class Footer extends Component {
                 <Row>
                     <Col>
                     <h6 className="text-white"><EmojiSymbolsIcon className="mr-2" />Tech Related</h6>
+                    <NavLink href="https://www.ted.com/talks" className="navlinks">ted</NavLink>
+                    <NavLink href="https://thenextweb.com/" className="navlinks">thenextweb</NavLink>
                     </Col>
                     <Col>
                     <h6 className="text-white"><LanguageIcon className="mr-2" />Some Useful Sites</h6>
+                    <NavLink href="https://www.pinterest.com/" className="navlinks">pinterest</NavLink>
+                    <NavLink href="https://www.freecodecamp.org/" className="navlinks">freecodecamp</NavLink>
+                    <NavLink href="https://www.w3schools.com/" className="navlinks">w3schools</NavLink>
                     </Col>
                     <Col>
                     <h6 className="text-white"><ImportContactsIcon className="mr-2" />Magazine</h6>
+                    <NavLink href="https://www.nationalgeographic.com/magazine/"
+                    className="navlinks">nationalgeographic</NavLink>
+                    <NavLink href="https://time.com/"
+                    className="navlinks">time</NavLink>
                     </Col>
                     <Col>
                     <h6 className="text-white"><PhoneIphoneIcon className="mr-2"/>Apps</h6>
                     <Row>
                     
                         <Col>
-                        <NavLink href="https://play.google.com/store/movies" className="text-sm"><ShopIcon className="mr-2"/> Play Store</NavLink>
+                        <NavLink href="https://play.google.com/store/movies" className="navlinks"
+                        >Play Store</NavLink>
                         
                         </Col>
                         <Col>
-                       <NavLink href="https://www.apple.com/"><StoreIcon className="mr-2" />Apple Store</NavLink>
+                       <NavLink href="https://www.apple.com/" 
+                       className="navlinks">iStore</NavLink>
                         
                         </Col>
                     </Row>
                     <Row>
-                        <Col>
-                        <h6 className="text-white"><SubscriptionsIcon className="mr-2"></SubscriptionsIcon>Subscribe</h6>
+                        <Col className="mt-2">
+                        <h6 className="text-white"><SubscriptionsIcon className=""></SubscriptionsIcon>Subscribe</h6>
                         <Form>
                         <FormGroup>
                             <Input type="email" name="email" placeholder="Enter your email">
@@ -61,7 +72,8 @@ export default class Footer extends Component {
 
                 <Row className="card-footer mt-4">
                     <Col>
-                        <img src="https://softwarica.edu.np/wp-content/uploads/2019/01/cropped-Softwarica-logo.png" height="50" width="200"></img>
+                        <img src="https://softwarica.edu.np/wp-content/uploads/2019/01/cropped-Softwarica-logo.png" 
+                        height="50" width="150"></img>
                     </Col>
                     <Col>
                     <p className="text-muted">&copy; Copyright 2021 Softwarica Coventry</p>
