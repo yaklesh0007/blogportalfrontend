@@ -1,4 +1,4 @@
-import React, { Component , state , deleteblog} from 'react'
+import React, { Component , state , deleteblog,addcomment,inputhandler} from 'react'
 import {Card,CardBody,CardFooter,CardHeader,
     CardTitle,Col,UncontrolledDropdown,DropdownToggle,
     DropdownMenu,DropdownItem,CardText, Button,
@@ -19,7 +19,12 @@ export default class Home extends Component {
             headers : {'authorization': `Bearer ${localStorage.getItem('token')}`}
         },
         userID:""
+        
+        
+        
     }
+    
+   
     componentDidMount(){
         axios.get("http://localhost:90/post/all", this.state.config)
         .then((response)=>{
@@ -35,8 +40,6 @@ export default class Home extends Component {
     }
     deleteblog = (id,userID) =>{
         
-        
-        
         axios.delete('http://localhost:90/post/delete/' + id+'/'+userID , this.state.config)
         .then((response)=>{
             console.log(response)
@@ -46,6 +49,8 @@ export default class Home extends Component {
         })
     
      }
+    
+
     render() {
         return (
             <div>
@@ -73,7 +78,8 @@ export default class Home extends Component {
       <EditIcon></EditIcon> 
       Update</Link></DropdownItem>
             
-            <DropdownItem><button onClick={this.deleteblog.bind(this, blog._id, blog.userID._id)}
+            <DropdownItem><button 
+            onClick={this.deleteblog.bind(this, blog._id, blog.userID._id)}
              className="btn btn-danger"><DeleteIcon></DeleteIcon>Delete</button></DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>
@@ -98,12 +104,15 @@ export default class Home extends Component {
                 <Button color="danger"><FavoriteIcon className="mr-2"></FavoriteIcon> Love</Button>
             </Col>
             <Col xs="8">
-                <Form>
-                    <Input type="text" name="commentBody" placeholder="Add Your Comment" className="rounded"></Input>
-                </Form>
+                
             </Col>
             <Col xs="2">
-                <Button color="primary" className="float-right"><ModeCommentIcon className="mr-2"></ModeCommentIcon> Comment</Button>
+                
+                
+                <Link to={'/addcomment/'+blog._id} className="btn btn-primary ">
+                <ModeCommentIcon className="mr-2"></ModeCommentIcon>
+                Comment
+                </Link>
             </Col>
             </Row>
         </CardFooter>

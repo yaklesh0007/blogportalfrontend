@@ -9,6 +9,7 @@ import addblog from './AddBlog'
 import contact from './Contact'
 import showprofile from './Showprofile'
 import about from './About'
+import addcomment from './Comment'
 class Body extends Component {
     render(){
     return (
@@ -25,6 +26,7 @@ class Body extends Component {
                      <Route path="/contact" exact component={contact}/>
                      <Route path="/about" exact component={about}/>
                      <Route path="/showprofile" exact component={showprofile}/>
+                     <Route path="/addcomment/:id" exact component={addcomment}/>
                     </Col>
                    
                 </Row>
