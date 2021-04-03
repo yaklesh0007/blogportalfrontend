@@ -1,10 +1,11 @@
-import React, { Component,state,inputhandler,addcomment,showcomments, deltecomment } from 'react'
+import React, { Component,state,inputhandler,addcomment,showcomments, deltecomment,getsinglecomment
+,open,handleEventChange,updateComment } from 'react'
 import {Card,CardBody,CardFooter,CardHeader,
     CardTitle,Col,UncontrolledDropdown,DropdownToggle,
     DropdownMenu,DropdownItem,CardText, Button,
     Form,
     Input,CardImg
-,Row} from 'reactstrap'
+,Row,Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
 import {Link } from 'react-router-dom';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import EditIcon from '@material-ui/icons/Edit';
@@ -29,13 +30,19 @@ export default class Comment extends Component {
         },
         comments:[],
         replys:[],
-        showcomment:false
-
+        showcomment:false,
+        isedit:false,
+        currentcomment:{}
     }
 
     inputhandler=(e)=>{
         this.setState({
             [e.target.name]:e.target.value
+        })
+    }
+    handleEventChange = (e) => {
+        this.setState({
+            currentcomment: { ...this.state.currentcomment, [e.target.name]: e.target.value }
         })
     }
     componentDidMount(){
@@ -56,6 +63,11 @@ export default class Comment extends Component {
         })
         .catch((err)=>{
             console.log(err.response)
+        })
+    }
+    open=()=>{
+        this.setState({
+            isedit:!this.state.isedit
         })
     }
     addcomment= (e) =>{
@@ -98,6 +110,30 @@ export default class Comment extends Component {
         .catch((error)=>{
             alert("not allowed to delete !!")
         })
+     }
+     getsinglecomment=(id)=>{
+         axios.get('http://localhost:90/comment/single/'+id, this.state.config)
+         .then((respnc)=>{
+             console.log(respnc)
+             this.setState({
+                currentcomment:respnc.data.data,
+                 isedit:!this.state.isedit
+
+             })
+         })
+         .catch((err)=>{
+             alert("unable to get data")
+         })
+     }
+     updateComment=(id)=>{
+        //  e.preventDefault()
+            axios.put('http://localhost:90/comment/update/'+id, this.state.currentcomment, this.state.config)
+            .then((responce)=>{
+                alert("successfully updated the comment !!")
+            })
+            .catch((err)=>{
+                alert("not allowed to edit the post !!")
+            })
      }
     render() {
         return (
@@ -194,9 +230,10 @@ export default class Comment extends Component {
                                     <MoreVertIcon></MoreVertIcon>
                                 </DropdownToggle>
                                 <DropdownMenu >
-                                <DropdownItem header><Link to={'/updateblog/'+commente._id} className="btn btn-success mt-2">
+                                <DropdownItem header><Button className="btn btn-success" 
+                                onClick={this.getsinglecomment.bind(this, commente._id)}>
                                 <EditIcon></EditIcon> 
-                                Update</Link></DropdownItem>
+                                Update </Button></DropdownItem>
                                         
                                         <DropdownItem><button 
                                         onClick={this.deltecomment.bind(this, commente._id,commente.userID._id)}
@@ -214,6 +251,28 @@ export default class Comment extends Component {
                    
                     :null
                     }
+                    <Modal isOpen={this.state.isedit}
+                    
+                     >
+                        <ModalHeader >Update Comment</ModalHeader>
+                        <ModalBody>
+                       <Form>
+                           <Input name="commentBody" value={this.state.currentcomment.commentBody}
+                           onChange={this.handleEventChange}></Input>
+                           <Input type="hidden" name="userID" value={this.state.currentcomment.userID}
+                            onChange={this.handleEventChange}   
+                           />
+                           <Button className="btn btn-primary mt-2" onClick= {()=>this.updateComment(this.state.currentcomment._id)} >
+                                Save changes
+                           </Button>
+                       </Form>
+                        </ModalBody>
+
+                        <ModalFooter>
+                        
+                        <Button className="btn btn-danger" onClick={this.open}>Cancel</Button>
+                        </ModalFooter>
+                    </Modal>
             </div>
         )
     }
