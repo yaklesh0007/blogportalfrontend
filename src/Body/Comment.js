@@ -1,4 +1,4 @@
-import React, { Component,state,inputhandler,addcomment,showcomments } from 'react'
+import React, { Component,state,inputhandler,addcomment,showcomments, deltecomment } from 'react'
 import {Card,CardBody,CardFooter,CardHeader,
     CardTitle,Col,UncontrolledDropdown,DropdownToggle,
     DropdownMenu,DropdownItem,CardText, Button,
@@ -65,10 +65,11 @@ export default class Comment extends Component {
              commentBody:this.state.commentBody,
              postID:this.state.postID
          }
-         console.log(comment)
+         
             axios.post('http://localhost:90/comment/insert/', comment , this.state.config)
             .then((responce)=>{
                 console.log(responce)
+                alert("comment added !!")
             })
             .catch((err)=>{
                 console.log(err)
@@ -86,6 +87,16 @@ export default class Comment extends Component {
         })
         .catch((er)=>{
             console.log(er)
+        })
+     }
+     deltecomment=(id,userID)=>{
+        axios.delete('http://localhost:90/comment/delete/'+id+'/'+userID, this.state.config)
+        .then((del)=>{
+            alert("deleted successfully !!")
+            
+        })
+        .catch((error)=>{
+            alert("not allowed to delete !!")
         })
      }
     render() {
@@ -188,7 +199,7 @@ export default class Comment extends Component {
                                 Update</Link></DropdownItem>
                                         
                                         <DropdownItem><button 
-                                        // onClick={this.deleteblog.bind(this, commente._id, commente.userID._id)}
+                                        onClick={this.deltecomment.bind(this, commente._id,commente.userID._id)}
                                         className="btn btn-danger"><DeleteIcon></DeleteIcon>Delete</button></DropdownItem>
                                 </DropdownMenu>
                                 </UncontrolledDropdown>
