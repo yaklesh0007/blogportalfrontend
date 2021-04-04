@@ -5,14 +5,14 @@ addreply,
 addreplys,cancelmodal,
 getsinglereply,
 cancelmodal2,
-updateReply} from 'react'
+updateReply,deleteReply} from 'react'
 import {Card,CardBody,CardFooter,CardHeader,
     CardTitle,Col,UncontrolledDropdown,DropdownToggle,
     DropdownMenu,DropdownItem,CardText, Button,
     Form,
     Input,CardImg
 ,Row,Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
-import {Link } from 'react-router-dom';
+import {Redirect } from 'react-router-dom';
 import AddCommentIcon from '@material-ui/icons/AddComment';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -139,6 +139,16 @@ export default class Comment extends Component {
             alert("not allowed to delete !!")
         })
      }
+     deleteReply=(id,userID)=>{
+         axios.delete('http://localhost:90/reply/delete/'+id+'/'+userID,this.state.config)
+         .then((responce)=>{
+             alert("reply deleted successfully !!")
+             window.location.href='/'
+         })
+         .catch((error)=>{
+             alert("not allowed to delete the data !!")
+         })
+     }
      getsinglecomment=(id)=>{
          axios.get('http://localhost:90/comment/single/'+id, this.state.config)
          .then((respnc)=>{
@@ -228,6 +238,9 @@ export default class Comment extends Component {
          })
      }
     render() {
+                if(!localStorage.getItem('token')){
+                    return <Redirect to='/login'/>
+                }
         return (
             <div>
                 <Row>
@@ -387,7 +400,9 @@ export default class Comment extends Component {
                                             Update </Button>
                                         </DropdownItem>
                                         
-                                        <DropdownItem>Delete</DropdownItem>
+                                        <DropdownItem><Button
+                                        color="danger" onClick={this.deleteReply.bind(this,rply._id,rply.userID._id)}
+                                        ><DeleteIcon/>Delete</Button></DropdownItem>
                                         
                                     </DropdownMenu>
                                     </UncontrolledDropdown>
