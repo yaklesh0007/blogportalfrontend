@@ -65,9 +65,13 @@ export default class Showprofile extends Component {
                 this.setState({
                   message:response.data.message
                 })
+                alert("user information updated successfully !! ")
+                window.location.href='/showprofile'
           })
           .catch((e)=>{
               console.log(e)
+              alert("Something went wrong while updateing !!")
+              window.location.href='/showprofile'
           })
       }
     render()

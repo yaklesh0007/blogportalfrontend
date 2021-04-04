@@ -105,7 +105,7 @@ export default class Comment extends Component {
         axios.delete('http://localhost:90/comment/delete/'+id+'/'+userID, this.state.config)
         .then((del)=>{
             alert("deleted successfully !!")
-            
+            window.location.href='/'
         })
         .catch((error)=>{
             alert("not allowed to delete !!")
@@ -130,6 +130,7 @@ export default class Comment extends Component {
             axios.put('http://localhost:90/comment/update/'+id, this.state.currentcomment, this.state.config)
             .then((responce)=>{
                 alert("successfully updated the comment !!")
+                window.location.href='/'
             })
             .catch((err)=>{
                 alert("not allowed to edit the post !!")
