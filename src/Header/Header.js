@@ -69,8 +69,8 @@ const Header = (props) => {
                 active={window.location.pathname === '/showprofile'}>
                   Show profile <AccountCircleIcon className="ml-2"/>
                 </DropdownItem>
-                <DropdownItem activeClassName="navbar__link--active" to="/showblog"
-                active={window.location.pathname === '/showblog'}
+                <DropdownItem activeClassName="navbar__link--active" to="/showmypost"
+                active={window.location.pathname === '/showmypost'}
                 >
                   Show your blog <BookIcon className="ml-2"></BookIcon>
                 </DropdownItem>
@@ -127,8 +127,8 @@ const Header = (props) => {
                 active={window.location.pathname === '/showprofile'}>
                   Show profile <AccountCircleIcon className="ml-2"/>
                 </DropdownItem>
-                <DropdownItem activeClassName="navbar__link--active" to='/showblog'
-                active={window.location.pathname === '/showblog'}>
+                <DropdownItem activeClassName="navbar__link--active" to='/showmypost'
+                active={window.location.pathname === '/showmypost'}>
                   Show your blog <BookIcon className="ml-2"></BookIcon>
                 </DropdownItem>
                 <DropdownItem divider />
