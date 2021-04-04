@@ -2,7 +2,10 @@ import React, { Component,state,inputhandler,addcomment,showcomments, deltecomme
 ,open,handleEventChange,updateComment,showreplies,
 handleReplyChange,
 addreply,
-addreplys,cancelmodal} from 'react'
+addreplys,cancelmodal,
+getsinglereply,
+cancelmodal2,
+updateReply} from 'react'
 import {Card,CardBody,CardFooter,CardHeader,
     CardTitle,Col,UncontrolledDropdown,DropdownToggle,
     DropdownMenu,DropdownItem,CardText, Button,
@@ -10,6 +13,8 @@ import {Card,CardBody,CardFooter,CardHeader,
     Input,CardImg
 ,Row,Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
 import {Link } from 'react-router-dom';
+import AddCommentIcon from '@material-ui/icons/AddComment';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -31,7 +36,6 @@ export default class Comment extends Component {
         config : {
             headers : {'authorization': `Bearer ${localStorage.getItem('token')}`}
         },
-        
         comments:[],
         replys:[],
         showcomment:false,
@@ -39,6 +43,7 @@ export default class Comment extends Component {
         currentcomment:{},
         showreply:false,
         opensecondmodal:false,
+        open3d:false,
         currentreply:{}
     }
 
@@ -54,7 +59,7 @@ export default class Comment extends Component {
     }
     handleReplyChange = (e) => {
         this.setState({
-            currentreply: { ...this.state.currentcomment, [e.target.name]: e.target.value }
+            currentreply: { ...this.state.currentreply, [e.target.name]: e.target.value }
         })
     }
     componentDidMount(){
@@ -87,6 +92,11 @@ export default class Comment extends Component {
             opensecondmodal:!this.state.opensecondmodal
         })
     }
+    cancelmodal2=()=>{
+        this.setState({
+            open3d:!this.state.openthirdmodal
+        })
+    }
     addcomment= (e) =>{
          
         e.preventDefault()
@@ -97,11 +107,12 @@ export default class Comment extends Component {
          
             axios.post('http://localhost:90/comment/insert/', comment , this.state.config)
             .then((responce)=>{
-                console.log(responce)
+               
                 alert("comment added !!")
+                window.location.href='/'
             })
             .catch((err)=>{
-                console.log(err)
+                alert("unable to add comment !!")
             })
      }
      showcomments =(id)=>{
@@ -112,7 +123,7 @@ export default class Comment extends Component {
                     comments:result.data.result,
                     showcomment:!this.state.showcomment
             })
-            console.log(this.state.comments)
+            
         })
         .catch((er)=>{
             console.log(er)
@@ -131,7 +142,7 @@ export default class Comment extends Component {
      getsinglecomment=(id)=>{
          axios.get('http://localhost:90/comment/single/'+id, this.state.config)
          .then((respnc)=>{
-             console.log(respnc)
+             
              this.setState({
                 currentcomment:respnc.data.data,
                  isedit:!this.state.isedit
@@ -142,8 +153,21 @@ export default class Comment extends Component {
              alert("unable to get data")
          })
      }
+     getsinglereply=(id)=>{
+            axios.get('http://localhost:90/reply/single/'+id, this.state.config)
+            .then((responce)=>{
+                    this.setState({
+                        open3d:!this.state.open3d,
+                        currentreply:responce.data.data
+                    })
+                    
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+     }
      updateComment=(id)=>{
-        //  e.preventDefault()
+        
             axios.put('http://localhost:90/comment/update/'+id, this.state.currentcomment, this.state.config)
             .then((responce)=>{
                 alert("successfully updated the comment !!")
@@ -152,6 +176,18 @@ export default class Comment extends Component {
             .catch((err)=>{
                 alert("not allowed to edit the post !!")
             })
+     }
+     updateReply=(replyID)=>{
+         
+        //  console.log(replyID)
+         axios.put('http://localhost:90/reply/update/'+replyID, this.state.currentreply, this.state.config)
+         .then((responce)=>{
+            alert("updated successfully !!")
+            window.location.href='/'
+         })
+         .catch((error)=>{
+                alert("unathorized to update reply!!!")
+         })
      }
      showreplies=(commentID)=>{
          
@@ -296,10 +332,10 @@ export default class Comment extends Component {
                                         className="btn btn-danger"><DeleteIcon></DeleteIcon>Delete</button></DropdownItem>
                                         <DropdownItem><button 
                                         onClick={this.addreply.bind(this, commente._id)}
-                                        className="btn btn-primary"><DeleteIcon></DeleteIcon>Add reply</button></DropdownItem>
+                                        className="btn btn-primary"><AddCommentIcon/>Add reply</button></DropdownItem>
                                         <DropdownItem><button 
                                         onClick={this.showreplies.bind(this, commente._id)}
-                                        className="btn btn-primary"><DeleteIcon></DeleteIcon>Show</button></DropdownItem>
+                                        className="btn btn-primary"><VisibilityIcon/>Show</button></DropdownItem>
 
                                 </DropdownMenu>
                                         
@@ -339,6 +375,22 @@ export default class Comment extends Component {
                                     <p><b>{rply.replybody}</b></p>
                                 </Col>
                                 <Col xs="3">
+                                <UncontrolledDropdown>
+                                    <DropdownToggle caret float="right" color="primary">
+                                        
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        <DropdownItem header>
+                                        <Button className="btn btn-success" 
+                                            onClick={this.getsinglereply.bind(this, rply._id)}>
+                                            <EditIcon></EditIcon> 
+                                            Update </Button>
+                                        </DropdownItem>
+                                        
+                                        <DropdownItem>Delete</DropdownItem>
+                                        
+                                    </DropdownMenu>
+                                    </UncontrolledDropdown>
                                 </Col>
                                 </Row>
                                 </CardHeader>
@@ -361,7 +413,8 @@ export default class Comment extends Component {
                            <Input type="hidden" name="userID" value={this.state.currentcomment.userID}
                             onChange={this.handleEventChange}   
                            />
-                           <Button className="btn btn-primary mt-2" onClick= {()=>this.updateComment(this.state.currentcomment._id)} >
+                           <Button className="mt-2" color="primary" onClick=
+                            {()=>this.updateComment(this.state.currentcomment._id)} >
                                 Save changes
                            </Button>
                        </Form>
@@ -370,31 +423,47 @@ export default class Comment extends Component {
                         <Button className="btn btn-danger" onClick={this.open}>Cancel</Button>
                         </ModalFooter>
                     </Modal>
-
-                    <Modal isOpen={this.state.opensecondmodal}
+                
+                <Modal isOpen={this.state.open3d}>
+                    <ModalHeader>Update reply</ModalHeader>
+                    <ModalBody>
+                    <Form>
                     
-                    >
-                       <ModalHeader >Add Reply</ModalHeader>
-                       <ModalBody>
-                      <Form>
-                          <Input name="replyBody" value={this.state.replyBody} type="text"
-                          onChange={this.inputhandler}></Input>
-                          <Input type="hidden" value={this.state.commentID} name="commentID" />
-                          <Button className="btn btn-primary mt-2" onClick={this.addreplys} >
-                               Save changes
-                          </Button>
-                      </Form>
-                       </ModalBody>
-                       <ModalFooter>
-                       <Button className="btn btn-danger" onClick={this.cancelmodal}>Cancel</Button>
-                       </ModalFooter>
-                   </Modal>
-                   <Modal open={this.state.showreply}>
-                       <ModalHeader>All the Comment on that Comment</ModalHeader>
-                       <ModalBody>
-                       
-                       </ModalBody>
-                   </Modal>
+                           <Input name="replybody" value={this.state.currentreply.replybody}
+                           onChange={this.handleReplyChange}></Input>
+                           <Input type="hidden" name="userID" value={this.state.currentreply.userID}
+                            onChange={this.handleReplyChange}   
+                           />
+                           <Button className="btn btn-primary mt-2" onClick=
+                           {()=>this.updateReply(this.state.currentreply._id)} >
+                                Save changes
+                           </Button>
+                       </Form>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button className="btn btn-danger" isOpen="false">Cancel</Button>
+                        </ModalFooter>
+                </Modal>
+                
+                    <Modal isOpen={this.state.opensecondmodal}>
+                    
+                    <ModalHeader >Add Reply</ModalHeader>
+                    <ModalBody>
+                   <Form>
+                       <Input name="replyBody" value={this.state.replyBody} type="text"
+                       onChange={this.inputhandler}></Input>
+                       <Input type="hidden" value={this.state.commentID} name="commentID" />
+                       <Button className="btn btn-primary mt-2" onClick={this.addreplys} >
+                            Save changes
+                       </Button>
+                   </Form>
+                    </ModalBody>
+                    <ModalFooter>
+                    <Button className="btn btn-danger" onClick={this.cancelmodal}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+               
+                   
             </div>
         )
     }
