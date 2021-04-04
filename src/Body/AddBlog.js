@@ -33,9 +33,11 @@ export default class AddBlog extends Component {
           
           .then((response)=>{
                 console.log(response)
+                alert("blog added Successfully !!")
+                window.location.href='/'
           })
           .catch((e)=>{
-              console.log(e)
+              alert("unable to add blog !!")
           })
           
       }
@@ -54,7 +56,7 @@ export default class AddBlog extends Component {
       <FormGroup>
         <Label for="title">Title</Label>
         <Input type="text" name="title" id="title" placeholder="Enter title"
-        value={this.state.title} onChange={this.inputhandler} required
+        value={this.state.title} onChange={this.inputhandler} required="true"
           maxLength="50" minLength="4"
         />
       </FormGroup>
@@ -62,7 +64,7 @@ export default class AddBlog extends Component {
       <FormGroup>
         <Label for="exampleSelect">Categories</Label>
         <Input type="select" name="category" placeholder="Select Your " value={this.state.category}
-                    onChange={this.inputhandler} required>
+                    onChange={this.inputhandler} required="true">
                         <option value="">Choose</option>
                        <option value="Social" selected={this.state.category==="Social"}>Social</option>
                        <option value="IT" selected={this.state.category==="IT"}>IT</option>

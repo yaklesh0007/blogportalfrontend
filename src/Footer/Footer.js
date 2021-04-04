@@ -76,7 +76,7 @@ export default class Footer extends Component {
                         height="50" width="150"></img>
                     </Col>
                     <Col>
-                    <p className="text-muted">&copy; Copyright 2021 Softwarica Coventry</p>
+                    <p className="text-muted">&copy; Copyright 2021 Blog  developed by Aklesh yadav</p>
                     </Col>
                     <Col>
                         <Row xs="4">

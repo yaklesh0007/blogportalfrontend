@@ -5,7 +5,7 @@ import {Card,CardBody,CardFooter,CardHeader,
     Form,
     Input,CardImg
 ,Row} from 'reactstrap'
-import {Link } from 'react-router-dom';
+import {Link,Redirect } from 'react-router-dom';
 import  axios from 'axios'
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import EditIcon from '@material-ui/icons/Edit';
@@ -51,7 +51,11 @@ export default class Home extends Component {
      }
     
 
-    render() {
+    render()
+     {
+        if(!localStorage.getItem('token')){
+            return <Redirect to='/login'/>
+        }
         return (
             <div>
                

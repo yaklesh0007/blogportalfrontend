@@ -90,13 +90,13 @@ export default class Showprofile extends Component {
       <FormGroup>
         <Label for="username" className="text-primary"><AccountBoxIcon color="secondary" className="mr-2"></AccountBoxIcon><b>Username</b></Label>
         <Input type="text" name="username" id="username" placeholder="Enter Username"
-        value={this.state.username} onChange={this.inputhandler}/>
+        value={this.state.username} onChange={this.inputhandler} required="true"/>
       </FormGroup>
       
       <FormGroup>
         <Label for="exampleSelect" className="text-primary"><ExposureIcon color="secondary" className="mr-2"></ExposureIcon><b>Gender</b></Label>
         <Input type="select" name="gender" placeholder="Select Your " value={this.state.gender}
-                    onChange={this.inputhandler} required>
+                    onChange={this.inputhandler} required="true">
                         <option value="">Choose</option>
                        <option value="Male" selected={this.state.gender==="Male"}>Male</option>
                        <option value="Female" selected={this.state.gender==="Female"}>Female</option>
@@ -109,7 +109,7 @@ export default class Showprofile extends Component {
         <Label for="exampleFile" className="text-primary "><PhotoIcon color="secondary" className="mr-2"></PhotoIcon><b>File</b></Label>
         <Input type="file" name="image" id="exampleFile"
             onChange={this.filehandler}
-        />
+        required="true"/>
         
       </FormGroup>
       <FormGroup>
@@ -117,7 +117,7 @@ export default class Showprofile extends Component {
         <Input type="number" name="phone" id="Phone" value={this.state.phone}
             onChange={this.inputhandler} maxLength="13"
             minLength="10"
-        />
+        required="true"/>
       </FormGroup>
       
       
