@@ -6,8 +6,7 @@ import TwitterIcon from '@material-ui/icons/Twitter';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
-import ShopIcon from '@material-ui/icons/Shop';
-import StoreIcon from '@material-ui/icons/Store';
+
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import LanguageIcon from '@material-ui/icons/Language';
 import EmojiSymbolsIcon from '@material-ui/icons/EmojiSymbols';

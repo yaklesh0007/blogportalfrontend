@@ -11,7 +11,9 @@ class Register extends Component {
     username:"",
     gender:"",
     userType:"normaluser",
-    phone:""
+    phone:"",
+    message:'',
+    errors:{}
   }
   
   register=(e)=>{
@@ -29,9 +31,17 @@ class Register extends Component {
   axios.post("http://localhost:90/user/insert",senduserData)
   .then(function(result){
       console.log(result)
+      alert("Register Successfully !!")
+      window.location.href='/'
   })
-  .catch(e=>{
-    console.log(e)
+  .catch((e)=>{
+    
+    if(e.response?.data?.errors){
+      this.setState({
+        message:e.response.data.errors.map(x=>x.message).join('<br/>')
+      })
+    }
+    
   })
 }
   
@@ -47,6 +57,12 @@ class Register extends Component {
               
           </Col>
           <Col>
+          <div>
+            <p className="text-danger" 
+            >
+              {this.state.message}
+            </p>
+          </div>
           <div className="jumbotron">
           <div className="card-header">
                           <h3 className="card-title text-primary">Sign Up here!!</h3>
@@ -57,9 +73,7 @@ class Register extends Component {
                   <Form.Label>Email address</Form.Label>
                   <Form.Control type="email" placeholder="Enter email" value={this.state.email}
                   onChange={(event)=>this.setState({email:event.target.value})} />
-                  <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
-                  </Form.Text>
+                 
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword">
@@ -81,8 +95,8 @@ class Register extends Component {
                 <Form.Group controlId="forgender">
                   <Form.Label>Gender</Form.Label>
                   <Input type="select" name="gender" placeholder="Select Your Gender" value={this.state.gender}
-                                  onChange={(event)=>{this.setState({gender: event.target.value})}} required>
-                                    
+                                  onChange={(event)=>{this.setState({gender: event.target.value})}} required="true">
+                                    <option>Choose</option>
                                     <option value="Male" selected={this.state.gender==="Male"}>Male</option>
                                     <option value="FeMale" selected={this.state.gender==="FeMale"}>FeMale</option>
                                     <option value="Others" selected={this.state.gender==="Others"}>Others</option>
