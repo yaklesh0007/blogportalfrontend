@@ -38,13 +38,15 @@ export default class Comment extends Component {
         },
         comments:[],
         replys:[],
+        likes:[],
         showcomment:false,
         isedit:false,
         currentcomment:{},
         showreply:false,
         opensecondmodal:false,
         open3d:false,
-        currentreply:{}
+        currentreply:{},
+        message:''
     }
 
     inputhandler=(e)=>{
@@ -66,7 +68,7 @@ export default class Comment extends Component {
         console.log(this.state.postID)
         axios.get('http://localhost:90/blog/single/' + this.state.postID, this.state.config)
         .then((response)=>{
-          console.log(response.data.data)
+          
             this.setState({
                 title : response.data.data.title,
                 description : response.data.data.description,
@@ -75,12 +77,33 @@ export default class Comment extends Component {
                 userimage:response.data.data.userID.image,
                 username:response.data.data.userID.username
             })   
-    
+            
           
         })
         .catch((err)=>{
             console.log(err.response)
         })
+        axios.get('http://localhost:90/like/history/'+this.postID, this.state.config)
+            .then(result=>{
+                
+                this.setState({
+                    likes:result.data.data
+                })
+            }).catch(er=>{
+                console.log(er)
+            })
+
+            axios.get('http://localhost:90/comment/'+this.state.postID, this.state.config) 
+            .then((result)=>{
+                
+                this.setState({
+                        comments:result.data.result
+                })
+                
+            })
+            .catch((er)=>{
+                console.log(er)
+            })
     }
     open=()=>{
         this.setState({
@@ -283,6 +306,10 @@ export default class Comment extends Component {
                             <CardText>
                              {this.state.category}
                              </CardText>
+                             <Row>
+                                <Col><p float="left">{this.state.likes.length}<p className="text-primary">Likes</p></p></Col>
+                                <Col><p float="right">{this.state.comments.length}<p className="text-primary">Comments</p></p></Col>
+                            </Row>
                             </CardBody>
                             <CardFooter>
                             <Row>
@@ -312,6 +339,7 @@ export default class Comment extends Component {
                             return (
                                 <div>
                             <CardHeader>
+                            
                             <Row >
                             <Col xs="1" >
                                 <img className="img-round" alt={commente.userID.username} 
