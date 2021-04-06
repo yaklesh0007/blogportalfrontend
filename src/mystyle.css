@@ -22,9 +22,7 @@
     height: 100%;
   }
   .image_profile{
-    width: 250px;
-    height: 450px;
-    padding: 50px;
+    border-radius: 25;
   }
   .navbar__link--active {
     border-bottom: 3px solid #29b6f6;

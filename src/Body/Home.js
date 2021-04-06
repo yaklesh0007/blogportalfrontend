@@ -1,9 +1,8 @@
-import React, { Component , state , deleteblog,addcomment,inputhandler} from 'react'
+import React, { Component , state , deleteblog,addcomment,inputhandler,addlike} from 'react'
 import {Card,CardBody,CardFooter,CardHeader,
     CardTitle,Col,UncontrolledDropdown,DropdownToggle,
-    DropdownMenu,DropdownItem,CardText, Button,
-    Form,
-    Input,CardImg
+    DropdownMenu,DropdownItem,CardText, Button
+    ,CardImg
 ,Row} from 'reactstrap'
 import {Link,Redirect } from 'react-router-dom';
 import  axios from 'axios'
@@ -20,11 +19,7 @@ export default class Home extends Component {
         },
         userID:""
         
-        
-        
     }
-    
-   
     componentDidMount(){
         axios.get("http://localhost:90/post/all", this.state.config)
         .then((response)=>{
@@ -43,14 +38,29 @@ export default class Home extends Component {
         axios.delete('http://localhost:90/post/delete/' + id+'/'+userID , this.state.config)
         .then((response)=>{
             console.log(response)
+            alert("Deleted Successfully!!")
+            window.location.href='/'
         })
         .catch((err)=>{
             console.log(err.response)
+            alert("not allowed to delete the post !!")
         })
     
      }
+     addlike = (postID) => {
+       
+         axios.get('http://localhost:90/like/' + postID ,this.state.config)
+         .then((response)=>{
+                console.log(response)
+                const messge=response?.data?.message
+                alert(messge)
+         })
+         .catch((err)=>{
+                console.log(err)
+                alert("alredy liked the post")
+         })
+     }
     
-
     render()
      {
         if(!localStorage.getItem('token')){
@@ -105,7 +115,7 @@ export default class Home extends Component {
         <CardFooter>
         <Row>
             <Col xs="2">
-                <Button color="danger"><FavoriteIcon className="mr-2"></FavoriteIcon> Love</Button>
+                <Button color="danger" onClick={this.addlike.bind(this,blog._id)}><FavoriteIcon className="mr-2"></FavoriteIcon> Love</Button>
             </Col>
             <Col xs="8">
                 

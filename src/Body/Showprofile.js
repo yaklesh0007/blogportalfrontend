@@ -130,7 +130,15 @@ export default class Showprofile extends Component {
                     </Col>
                     <Col>
                     <Card>
-                    <CardImg top className="rounded-circle mx-auto d-block image_profile " src={'http://localhost:90/images/'+this.state.image} alt={this.state.username} />
+                    
+                    <CardImg top className="img-round" width="100" height="100" 
+                      src="https://cdn.pixabay.com/photo/2020/03/17/13/04/desert-4940300_960_720.jpg"
+                      alt="image of desert area"
+                    />
+                    <img src={'http://localhost:90/images/'+this.state.image} alt={this.state.username} 
+                    height="100"
+                    width="100"
+                    className="rounded-circle  image_profile ml-auto"></img>
                     <CardBody>
                     <CardTitle tag="h6" ><EmailIcon color="secondary" className="mr-2"></EmailIcon> {this.state.email}</CardTitle>
                     <CardSubtitle tag="h6" ><AccountBoxIcon color="secondary" className="mr-2"></AccountBoxIcon> {this.state.username}</CardSubtitle>

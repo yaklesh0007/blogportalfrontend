@@ -16,10 +16,11 @@ import {
   Button,
   Form,
   FormGroup,
- 
-  Input
+  Input,
+   Modal, ModalHeader, ModalBody, ModalFooter ,ListGroup, ListGroupItem, Badge
   
 } from 'reactstrap';
+
 import HomeIcon from '@material-ui/icons/Home';
 import PhoneIcon from '@material-ui/icons/Phone';
 import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
@@ -30,10 +31,35 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import BookIcon from '@material-ui/icons/Book';
 import InfoIcon from '@material-ui/icons/Info';
 import PostAddIcon from '@material-ui/icons/PostAdd';
+import axios from 'axios';
 const Header = (props) => {
+  const {
+    className
+  } = props;
+  const [Search,setSearch] =useState('');
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
+
+  const [modal, setModal] = useState(false);
+
+  const toggle1 = () => setModal(!modal);
+  
+  const [postDetails,setpostDetails]=useState([])
+  const fetchblog=(query)=>{
+    setSearch(query)
+    console.log(setSearch)
+    axios.get('http://localhost:90/search/'+query)
+    .then(result=>{
+        setpostDetails(result.data.blog)
+
+        console.log(postDetails)
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+
+  }
 
   const logout=()=> log(
     localStorage.removeItem('token'),
@@ -88,9 +114,9 @@ const Header = (props) => {
                 type="search"
                 name="search"
                 id="exampleSearch"
-                placeholder="search"
+                placeholder="Click For Search"
                 className="mt-4"
-              />
+                onClick={toggle1}/>
          </FormGroup>
           </Form>
           
@@ -147,6 +173,7 @@ const Header = (props) => {
                 id="exampleSearch"
                 placeholder="search"
                 className="mt-4"
+                onClick={toggle1}
               />
          </FormGroup>
           </Form>
@@ -185,7 +212,7 @@ const Header = (props) => {
                 id="exampleSearch"
                 placeholder="search"
                 className="mt-4"
-              />
+                onClick={toggle1}/>
          </FormGroup>
           </Form>
           <Button color="success" className="ml-4" href="/login" 
@@ -199,10 +226,40 @@ const Header = (props) => {
       
   }
   return (
-    <div className="sticky-top navigation">
+    <div>
+    <div className="sticky-top">
       {
         menu
       }
+    </div>
+    <div>
+        <Modal isOpen={modal} toggle={toggle1} className={className}>
+            <ModalHeader toggle={toggle1}>
+            
+            </ModalHeader>
+            <ModalBody>
+            <Input type="text" 
+            value={Search}
+            onChange=
+            {(e)=>fetchblog(e.target.value)}
+              ></Input>
+              <ListGroup className="mt-2">
+              {postDetails.map((item)=>{
+                return(
+                  
+                <ListGroupItem className="justify-content-between" href={'/addcomment/'+item._id}>
+                {item.title} <Badge pill>{item.description}</Badge></ListGroupItem>
+                
+                )
+              })}
+    </ListGroup>
+            </ModalBody>
+            <ModalFooter>
+              
+              <Button color="danger" onClick={toggle1}>Cancel</Button>
+            </ModalFooter>
+          </Modal>
+          </div>
     </div>
   );
 }
