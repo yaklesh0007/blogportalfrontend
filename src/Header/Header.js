@@ -17,10 +17,10 @@ import {
   Form,
   FormGroup,
   Input,
-   Modal, ModalHeader, ModalBody, ModalFooter ,ListGroup, ListGroupItem, Badge
+   Modal, ModalHeader, ModalBody, ModalFooter ,ListGroup,Container,Row,Col
   
 } from 'reactstrap';
-
+import {Link} from "react-router-dom"
 import HomeIcon from '@material-ui/icons/Home';
 import PhoneIcon from '@material-ui/icons/Phone';
 import ViewHeadlineIcon from '@material-ui/icons/ViewHeadline';
@@ -31,6 +31,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import BookIcon from '@material-ui/icons/Book';
 import InfoIcon from '@material-ui/icons/Info';
 import PostAddIcon from '@material-ui/icons/PostAdd';
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import axios from 'axios';
 const Header = (props) => {
   const {
@@ -246,10 +247,18 @@ const Header = (props) => {
               <ListGroup className="mt-2">
               {postDetails.map((item)=>{
                 return(
+                  <Container>
+                  <Row>
+                    <Col>{item.title}</Col>
+                    <Col>{item.description}</Col>
+
+                    <Col><Link to={'/addcomment/'+item._id} className="btn btn-primary"><ArrowRightAltIcon/></Link></Col>
+                  </Row>
+                  {/* <ListGroupItem className="justify-content-between" href={'/addcomment/'+item._id}>
+                {item.title} <Badge pill>{item.description}</Badge></ListGroupItem> */}
+                </Container>
                   
-                <ListGroupItem className="justify-content-between" href={'/addcomment/'+item._id}>
-                {item.title} <Badge pill>{item.description}</Badge></ListGroupItem>
-                
+               
                 )
               })}
     </ListGroup>
