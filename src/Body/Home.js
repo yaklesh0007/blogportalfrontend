@@ -4,6 +4,7 @@ import {Card,CardBody,CardFooter,CardHeader,
     DropdownMenu,DropdownItem,CardText, Button
     ,CardImg
 ,Row} from 'reactstrap'
+import{Carousel}from 'react-bootstrap'
 import {Link,Redirect } from 'react-router-dom';
 import  axios from 'axios'
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -17,13 +18,14 @@ export default class Home extends Component {
         config : {
             headers : {'authorization': `Bearer ${localStorage.getItem('token')}`}
         },
-        userID:""
+        userID:"",
+        feedbacks:[]
         
     }
     componentDidMount(){
         axios.get("http://localhost:90/post/all", this.state.config)
         .then((response)=>{
-            console.log(response)
+            
             this.setState({
                 blogs : response.data.data,
                 // userID : response.data.data.data.userID
@@ -31,6 +33,16 @@ export default class Home extends Component {
         })
         .catch((err)=>{
             console.log(err.response)
+        })
+        axios.get("http://localhost:90/getapproved/feedback")
+        .then((result)=>{
+            this.setState({
+                feedbacks:result.data.data
+            })
+            
+        })
+        .catch((e)=>{
+            console.log(e)
         })
     }
     deleteblog = (id,userID) =>{
@@ -67,6 +79,42 @@ export default class Home extends Component {
             return <Redirect to='/login'/>
         }
         return (
+            <div>
+             <div className="mb-4">
+      <div className="card text-center">
+                <h3 className="text-primary">Feedbacks of Some users</h3>
+      </div>
+      <Carousel >
+  <Carousel.Item interval={2000}>
+    <img height="200px"
+      className="d-block w-100 "
+      src="https://cdn.pixabay.com/photo/2014/02/27/16/10/tree-276014_960_720.jpg"
+      alt="Nature"
+    />
+    <Carousel.Caption>
+      <h3 className="text-danger">First slide label</h3>
+      <p><i>Nulla vitae elit libero, a pharetra augue mollis interdum.</i></p>
+    </Carousel.Caption>
+  </Carousel.Item>
+  {
+    this.state.feedbacks.map((feedback)=>{
+        return(
+  <Carousel.Item interval={2000}>
+    <img height="200px"
+      className="d-block w-100"
+      src={'http://localhost:90/images/'+feedback.userID.image}
+      alt="Second slide"
+    />
+    <Carousel.Caption>
+      <h3 className="text-danger">{feedback.title}</h3>
+      <p><i>{feedback.description}</i></p>
+    </Carousel.Caption>
+  </Carousel.Item>
+  )
+})
+}
+</Carousel>
+      </div>
             <div>
                
       {
@@ -135,6 +183,7 @@ export default class Home extends Component {
               )
          })
       }
+      </div>
      
             </div>
         )
