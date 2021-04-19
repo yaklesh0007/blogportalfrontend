@@ -231,7 +231,7 @@ export default class Comment extends Component {
                 showreply:!this.state.showreply,
                 replys:responce.data.data
             })
-            console.log(this.state.showreply)
+            console.log(this.state.replys)
          })
          .catch((error)=>{
                 alert("donot have replies !!")
