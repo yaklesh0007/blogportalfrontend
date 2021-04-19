@@ -1,16 +1,20 @@
 import React, { Component,state,inputhandler,addfeedback } from 'react'
 import {Row,Col,CardImg, CardHeader,Form, FormGroup, Label, Input, Button} from 'reactstrap'
 import TitleIcon from '@material-ui/icons/Title';
+import{Redirect} from 'react-router-dom'
 import DescriptionIcon from '@material-ui/icons/Description';
 import EmailIcon from '@material-ui/icons/Email';
 import axios from 'axios'
 
 export default class Contact extends Component {
     state={
-      email:'',
+      
       title:'',
       description:'',
-      message:''
+      message:'',
+      config : {
+        headers : {'authorization': `Bearer ${localStorage.getItem('token')}`}
+    }
     }
     inputhandler=(e)=>{
       this.setState({
@@ -19,7 +23,7 @@ export default class Contact extends Component {
   }
   addfeedback=(e)=>{
     e.preventDefault();
-    axios.post('http://localhost:90/addfeedback',this.state)
+    axios.post('http://localhost:90/addfeedback',this.state ,this.state.config)
     .then((responce)=>{
       console.log(responce.data.data)
       this.setState({
@@ -34,6 +38,9 @@ export default class Contact extends Component {
   }
 
     render() {
+      if(!localStorage.getItem('token')){
+        return <Redirect to='/login'/>
+    }
         return (
             <div>
                 <Row>
@@ -47,7 +54,7 @@ export default class Contact extends Component {
                       <p className="text-success">{this.state.message}</p>
                     </CardHeader>
                     <Form className="mt-4">
-                    <FormGroup row>
+                    {/* <FormGroup row>
                       <Label for="exampleEmail" sm={2} ><EmailIcon color="secondary"/>Email</Label>
                       <Col sm={10}>
                         <Input type="email" name="email" id="exampleEmail" 
@@ -55,7 +62,7 @@ export default class Contact extends Component {
                         value={this.state.email} onChange={this.inputhandler} 
                         />
                       </Col>
-                    </FormGroup>
+                    </FormGroup> */}
                     <FormGroup row>
                       <Label for="exampleEmail2" sm={2}><TitleIcon color="secondary"/>Title</Label>
                       <Col sm={10}>
@@ -68,7 +75,7 @@ export default class Contact extends Component {
                       <DescriptionIcon color="secondary"/>Description</Label>
                       <Col sm={10}>
                         <Input type="textarea" name="description" id="exampleEmail2" 
-                        placeholder="Enter Description"  required="true"
+                        placeholder="Enter Description"  required="true" minLength="4"
                         value={this.state.description} onChange={this.inputhandler} 
                         />
                       </Col>
