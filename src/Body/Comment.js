@@ -65,7 +65,7 @@ export default class Comment extends Component {
         })
     }
     componentDidMount(){
-        console.log(this.state.postID)
+        
         axios.get('http://localhost:90/blog/single/' + this.state.postID, this.state.config)
         .then((response)=>{
           
@@ -83,7 +83,7 @@ export default class Comment extends Component {
         .catch((err)=>{
             console.log(err.response)
         })
-        axios.get('http://localhost:90/like/history/'+this.postID, this.state.config)
+        axios.get('http://localhost:90/likes/onpost/'+this.postID, this.state.config)
             .then(result=>{
                 
                 this.setState({
