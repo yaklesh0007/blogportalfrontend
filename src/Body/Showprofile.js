@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { Component,state,inputhandler, updateprofile,
+import React, { Component,state,inputhandler, updateprofile,handleValidation,
 filehandler} from 'react'
 import {Col, Row, CardTitle, CardSubtitle, CardText,CardBody,Card,Button,Input,
 Label,FormGroup,Form,CardImg
@@ -21,8 +21,40 @@ export default class Showprofile extends Component {
             headers : {'authorization': `Bearer ${localStorage.getItem('token')}`}
         },
         image:'',
-        message:''
+        message:'',
+        genderError:'',
+        usernameError:'',
+        phoneError:'',
+        imageError:''
+
       }
+      handleValidation=()=>{
+        let usernameError='';
+        let genderError='';
+        let phoneError='';
+        let imageError='';
+        if(!this.state.username){
+          usernameError='Full Name cannot be Empty';
+        }else if(!this.state.gender){
+          genderError='Gender cannot be Empty';
+        }
+        else if(!this.state.phone){
+            phoneError='Contact Number cannot be Empty';
+        }
+        else if(!this.state.image){
+            imageError='Image required!!';
+        }if(usernameError||genderError||phoneError||imageError){
+            this.setState({
+              usernameError,
+                genderError,
+                phoneError,
+                imageError
+            })
+            return false;
+        }
+        return true;
+     };
+
       inputhandler=(e)=>{
         this.setState({
             [e.target.name]:e.target.value
@@ -52,6 +84,8 @@ export default class Showprofile extends Component {
       }
       updateprofile=(e)=>{
         e.preventDefault();
+        const isValid=this.handleValidation();
+        if(isValid){
         const data =new FormData()
 
           data.append('username',this.state.username)
@@ -73,6 +107,7 @@ export default class Showprofile extends Component {
               alert("Something went wrong while updateing !!")
               window.location.href='/showprofile'
           })
+        }
       }
     render()
     {
@@ -86,15 +121,12 @@ export default class Showprofile extends Component {
                     <h3 className="text-success card-header">Update Your Profile</h3>
                     <p className="text-primary">{this.state.message}</p>
                  <Form className="mt-2">
-      {/* <FormGroup>
-        <Label for="email" className="text-primary"><EmailIcon color="secondary" className="mr-2"></EmailIcon><b>Email</b></Label>
-        <Input type="email" name="email" id="email" placeholder="Enter Email"
-        value={this.state.email} onChange={this.inputhandler}/>
-      </FormGroup> */}
+     
       <FormGroup>
         <Label for="username" className="text-primary"><AccountBoxIcon color="secondary" className="mr-2"></AccountBoxIcon><b>Username</b></Label>
         <Input type="text" name="username" id="username" placeholder="Enter Username"
         value={this.state.username} onChange={this.inputhandler} required="true"/>
+                  <span style={{color: "red"}}>{this.state.usernameError}</span>
       </FormGroup>
       
       <FormGroup>
@@ -108,12 +140,15 @@ export default class Showprofile extends Component {
                        <option value="Other" selected={this.state.gender==="Other"}>Other</option>
                        
                        </Input>
+                       <span style={{color: "red"}}>{this.state.genderError}</span>
+
       </FormGroup>
       <FormGroup>
         <Label for="exampleFile" className="text-primary "><PhotoIcon color="secondary" className="mr-2"></PhotoIcon><b>File</b></Label>
         <Input type="file" name="image" id="exampleFile"
             onChange={this.filehandler}
         required="true"/>
+                  <span style={{color: "red"}}>{this.state.imageError}</span>
         
       </FormGroup>
       <FormGroup>
@@ -122,6 +157,8 @@ export default class Showprofile extends Component {
             onChange={this.inputhandler} maxLength="13"
             minLength="10"
         required="true"/>
+                  <span style={{color: "red"}}>{this.state.phoneError}</span>
+
       </FormGroup>
       
       
