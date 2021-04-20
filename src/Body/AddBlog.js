@@ -1,4 +1,4 @@
-import React, { Component, state, inputhandler, Addblog, e , filehandler } from 'react'
+import React, { Component, state, inputhandler, Addblog, e , filehandler,handleValidation } from 'react'
 import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import axios from 'axios'
 export default class AddBlog extends Component {
@@ -9,7 +9,37 @@ export default class AddBlog extends Component {
         image:'',
         config : {
           headers : {'authorization': `Bearer ${localStorage.getItem('token')}`}
+      },
+      titleError:'',
+      descriptionError:'',
+      categoryError:'',
+      imageError:'',
+    }
+    handleValidation=()=>{
+          let titleError='';
+          let descriptionError='';
+          let categoryError='';
+          let imageError='';
+          if(!this.state.title){
+            titleError='title cannot be Empty';
+        }else if(!this.state.description){
+          descriptionError='Description cannot be Empty';
+        }else if(!this.state.category){
+            categoryError='category cannot be Empty';
+        }else if(!this.state.image){
+          imageError='image cannot be Empty';
+        }
+        if(titleError||descriptionError||categoryError||imageError){
+          this.setState({
+            titleError,
+            descriptionError,
+            categoryError,
+            imageError
+          })
+          return false;
       }
+      return true;
+
     }
       inputhandler=(e)=>{
           this.setState({
@@ -23,6 +53,8 @@ export default class AddBlog extends Component {
       }
       Addblog=(e)=>{
           e.preventDefault(); //default behaviour stop
+          const isValid=this.handleValidation();
+          if(isValid){
           const data =new FormData()
 
           data.append('title',this.state.title)
@@ -37,8 +69,9 @@ export default class AddBlog extends Component {
                 window.location.href='/'
           })
           .catch((e)=>{
-              alert("unable to add blog !!")
+             console.log(e)
           })
+        }
           
       }
     render() {
@@ -59,6 +92,7 @@ export default class AddBlog extends Component {
         value={this.state.title} onChange={this.inputhandler} required="true"
           maxLength="50" minLength="4"
         />
+        <span style={{color: "red"}}>{this.state.titleError}</span>
       </FormGroup>
       
       <FormGroup>
@@ -73,13 +107,14 @@ export default class AddBlog extends Component {
                        <option value="Astrology" selected={this.state.category==="Astrology"}>Astrology</option>
                        <option value="Political" selected={this.state.category==="Political"} >Political</option>
                        </Input>
+                       <span style={{color: "red"}}>{this.state.categoryError}</span>
       </FormGroup>
       <FormGroup>
         <Label for="exampleFile">File</Label>
         <Input type="file" name="image" id="exampleFile"
             onChange={this.filehandler}
         required/>
-        
+        <span style={{color: "red"}}>{this.state.imageError}</span>
       </FormGroup>
       <FormGroup>
         <Label for="description">Description</Label>
@@ -88,6 +123,7 @@ export default class AddBlog extends Component {
         required
           maxLength="200"
         />
+        <span style={{color: "red"}}>{this.state.descriptionError}</span>
       </FormGroup>
       
       
