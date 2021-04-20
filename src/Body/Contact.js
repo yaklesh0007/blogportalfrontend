@@ -3,7 +3,7 @@ import {Row,Col,CardImg, CardHeader,Form, FormGroup, Label, Input, Button} from 
 import TitleIcon from '@material-ui/icons/Title';
 import{Redirect} from 'react-router-dom'
 import DescriptionIcon from '@material-ui/icons/Description';
-import EmailIcon from '@material-ui/icons/Email';
+
 import axios from 'axios'
 
 export default class Contact extends Component {
@@ -50,10 +50,11 @@ export default class Contact extends Component {
   if(isValid){
     axios.post('http://localhost:90/addfeedback',this.state ,this.state.config)
     .then((responce)=>{
-      console.log(responce.data.data)
+     
       this.setState({
         message:responce.data.message
       })
+      window.location.href='/'
       
     })
     .catch((err)=>{
@@ -76,7 +77,7 @@ export default class Contact extends Component {
                     </Col>
                     <Col className="jumbotron">
                     <CardHeader>
-                      <h4> Send Your Feedback !!</h4>
+                      <h4> Add an Interesting Quotes !!</h4>
                       <p className="text-success">{this.state.message}</p>
                     </CardHeader>
                     <Form className="mt-4">
@@ -103,7 +104,7 @@ export default class Contact extends Component {
 
                     </FormGroup>
                     <Button type="submit" className="float-right" color="primary"
-                    onClick={this.addfeedback}>Send Feedback</Button>
+                    onClick={this.addfeedback}>Add Quaotes</Button>
                   </Form>
                     </Col>
                 </Row>

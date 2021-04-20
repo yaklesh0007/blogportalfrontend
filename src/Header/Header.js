@@ -31,6 +31,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import BookIcon from '@material-ui/icons/Book';
 import InfoIcon from '@material-ui/icons/Info';
 import PostAddIcon from '@material-ui/icons/PostAdd';
+import FormatQuoteIcon from '@material-ui/icons/FormatQuote';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import axios from 'axios';
 const Header = (props) => {
@@ -81,7 +82,7 @@ const Header = (props) => {
             </NavItem>
             <NavItem>
               <NavLink href="/contact" activeClassName="navbar__link--active"
-              active={window.location.pathname === '/contact'}><PhoneIcon/>Contact Us</NavLink>
+              active={window.location.pathname === '/contact'}><FormatQuoteIcon/>Add Quotes</NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/addblog" activeClassName="navbar__link--active"
@@ -143,7 +144,7 @@ const Header = (props) => {
             </NavItem>
             <NavItem>
               <NavLink href="/contact" activeClassName="navbar__link--active"
-              active={window.location.pathname === '/contact'}><PhoneIcon/>Contact Us</NavLink>
+              active={window.location.pathname === '/contact'}><FormatQuoteIcon/>Add Quotes</NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/addblog" activeClassName="navbar__link--active"
@@ -205,7 +206,7 @@ const Header = (props) => {
             </NavItem>
             <NavItem>
               <NavLink href="/contact" activeClassName="navbar__link--active"
-              active={window.location.pathname === '/contact'}><PhoneIcon/>Contact Us</NavLink>
+              active={window.location.pathname === '/contact'}><FormatQuoteIcon/>Add Quaotes</NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/about" activeClassName="navbar__link--active"
