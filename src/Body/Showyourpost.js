@@ -62,7 +62,7 @@ getblogsingle=(id)=>{
 }
 updateblog=(id)=>{
     console.log(this.state.currentblog)
-    axios.put('http://localhost:90/post/update/'+id, this.state.currentblog, this.state.config)
+    axios.put('http://localhost:90/post/updates/'+id, this.state.currentblog, this.state.config)
             .then((responce)=>{
                 alert("successfully updated the blog !!")
                 window.location.href='/showmypost'

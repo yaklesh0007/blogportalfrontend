@@ -77,11 +77,12 @@ class Register extends Component {
   })
   .catch((e)=>{
     
-    if(e.response?.data?.errors){
-      this.setState({
-        message:e.response.data.errors.map(x=>x.message).join('<br/>')
-      })
-    }
+    // if(e.response?.data?.errors){
+    //   this.setState({
+    //     message:e.response.data.errors.map(x=>x.message).join('<br/>')
+    //   })
+    // }
+    alert("user already exit")
     
   })
 }

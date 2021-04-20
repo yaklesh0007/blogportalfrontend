@@ -68,10 +68,12 @@ updateData = (e)=>{
   if(isValid){
   axios.put('http://localhost:90/post/update/'+this.state.id, this.state, this.state.config)
   .then((response)=>{
-      console.log(response)
+      alert("update sucessfully !!")
+      window.location.href='/'
   })
   .catch((err)=>{
       console.log(err.response)
+      alert("unauthorized user !!")
   })
 }
 }
