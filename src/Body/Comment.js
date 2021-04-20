@@ -452,7 +452,7 @@ export default class Comment extends Component {
                         <ModalBody>
                        <Form>
                            <Input name="commentBody" value={this.state.currentcomment.commentBody}
-                           onChange={this.handleEventChange}></Input>
+                           onChange={this.handleEventChange} required="true"></Input>
                            <Input type="hidden" name="userID" value={this.state.currentcomment.userID}
                             onChange={this.handleEventChange}   
                            />
@@ -473,7 +473,7 @@ export default class Comment extends Component {
                     <Form>
                     
                            <Input name="replybody" value={this.state.currentreply.replybody}
-                           onChange={this.handleReplyChange}></Input>
+                           onChange={this.handleReplyChange} required="true"></Input>
                            <Input type="hidden" name="userID" value={this.state.currentreply.userID}
                             onChange={this.handleReplyChange}   
                            />
@@ -494,7 +494,7 @@ export default class Comment extends Component {
                     <ModalBody>
                    <Form>
                        <Input name="replyBody" value={this.state.replyBody} type="text"
-                       onChange={this.inputhandler}></Input>
+                       onChange={this.inputhandler} required="true"></Input>
                        <Input type="hidden" value={this.state.commentID} name="commentID" />
                        <Button className="btn btn-primary mt-2" onClick={this.addreplys} >
                             Save changes
