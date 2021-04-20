@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { Component, state, inputhandler,updateData } from 'react'
+import React, { Component, state, inputhandler,updateData,handleValidation } from 'react'
 
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 export default class UpdateBlog extends Component {
@@ -11,7 +11,33 @@ export default class UpdateBlog extends Component {
       headers : {'authorization': `Bearer ${localStorage.getItem('token')}`}
   },
     id:this.props.match.params.id,
-    userID:""
+    userID:"",
+    titleError:'',
+    descriptionError:'',
+    categoryError:''
+}
+handleValidation=()=>{
+  let titleError='';
+  let descriptionError='';
+  let categoryError='';
+  
+  if(!this.state.title){
+    titleError='title cannot be Empty';
+}else if(!this.state.description){
+  descriptionError='Description cannot be Empty';
+}else if(!this.state.category){
+    categoryError='category cannot be Empty';
+}
+if(titleError||descriptionError||categoryError){
+  this.setState({
+    titleError,
+    descriptionError,
+    categoryError
+  })
+  return false;
+}
+return true;
+
 }
   inputhandler=(e)=>{
       this.setState({
@@ -38,6 +64,8 @@ export default class UpdateBlog extends Component {
 }
 updateData = (e)=>{
   e.preventDefault();
+  const isValid=this.handleValidation();
+  if(isValid){
   axios.put('http://localhost:90/post/update/'+this.state.id, this.state, this.state.config)
   .then((response)=>{
       console.log(response)
@@ -45,6 +73,7 @@ updateData = (e)=>{
   .catch((err)=>{
       console.log(err.response)
   })
+}
 }
 
     render() {
@@ -56,6 +85,8 @@ updateData = (e)=>{
       <Label for="title">Title</Label>
       <Input type="text" name="title" id="title" placeholder="Enter title"
       value={this.state.title} onChange={this.inputhandler}/>
+        <span style={{color: "red"}}>{this.state.titleError}</span>
+
     </FormGroup>
     
     <FormGroup>
@@ -70,22 +101,17 @@ updateData = (e)=>{
                      <option value="Astrology" selected={this.state.category==="Astrology"}>Astrology</option>
                      <option value="Political" selected={this.state.category==="Political"}>Political</option>
                      </Input>
+                     <span style={{color: "red"}}>{this.state.categoryError}</span>
+
     </FormGroup>
-    {/* <FormGroup>
-      <Label for="exampleFile">File</Label>
-      <Input type="file" name="image" id="exampleFile" value={this.state.image}
-          onChange={this.inputhandler}
-      />
-      <FormText color="muted">
-        This is some placeholder block-level help text for the above input.
-        It's a bit lighter and easily wraps to a new line.
-      </FormText>
-    </FormGroup> */}
+    
     <FormGroup>
       <Label for="description">Description</Label>
       <Input type="textarea" name="description" id="description" value={this.state.description}
           onChange={this.inputhandler}
       />
+        <span style={{color: "red"}}>{this.state.descriptionError}</span>
+
     </FormGroup>
     
     
