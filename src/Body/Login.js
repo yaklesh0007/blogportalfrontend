@@ -1,4 +1,4 @@
-import React, { Component, state, login,chklogin} from 'react'
+import React, { Component, state, login,chklogin,handleValidation} from 'react'
 import {Form ,Button, Jumbotron,Row,Col} from 'react-bootstrap'
 
 import axios from 'axios'
@@ -9,30 +9,56 @@ class Login extends Component{
     password:'',
     chklogin:false,
     message:'',
-    errormessage:''
+    errormessage:'',
+    erroremail:'',
+    errorpassword:''
   }
+  handleValidation=()=>{
+    let erroremail="";
+    let errorpassword="";
+
+    if(!this.state.email){
+      erroremail='Email cannot be Empty'
+    }
+    if(!this.state.password){
+      errorpassword='Password cannot be Empty'
+    }
+    if(!this.state.email.includes('@')){
+      erroremail='Invalid email';
+    }
+    if(erroremail||errorpassword){
+        this.setState({erroremail,errorpassword});
+        return false;
+    }
+
+    return true;
+  }
+
   login=(e)=>{
     e.preventDefault();
-    const data={
-      email:this.state.email,
-      password:this.state.password
-    }
-    axios.post("http://localhost:90/user/login",data)
-    .then((response)=>{
-      console.log(response)
-      localStorage.setItem('token', response.data.token)
-      localStorage.setItem('userType', response.data.userType)
-      this.setState({
-        chklogin:true,
-        message:response.data.message
+    const isValid=this.handleValidation();
+    if(isValid){
+          const data={
+            email:this.state.email,
+            password:this.state.password
+          }
+          axios.post("http://localhost:90/user/login",data)
+          .then((response)=>{
+            console.log(response)
+            localStorage.setItem('token', response.data.token)
+            localStorage.setItem('userType', response.data.userType)
+            this.setState({
+              chklogin:true,
+              message:response.data.message
 
-      })
-    })
-    .catch((err)=>{
-     this.setState({
-       errormessage:err.response.data.message
-     })
-    })
+            })
+          })
+          .catch((err)=>{
+          this.setState({
+            errormessage:err.response.data.message
+          })
+          })
+      }
   }
     render(){
       // redirect
@@ -73,10 +99,11 @@ class Login extends Component{
                 <Form.Control type="email" placeholder="Enter email" 
                   value={this.state.email}
                 onChange={(event)=>this.setState({email:event.target.value})}
-                required/>
-                <Form.Text className="text-muted">
-                  We'll never share your email with anyone else.
-                </Form.Text>
+                // required
+
+                />
+                <span style={{color: "red"}}>{this.state.erroremail}</span>
+                
               </Form.Group>
 
               <Form.Group controlId="formBasicPassword">
@@ -84,7 +111,9 @@ class Login extends Component{
                 <Form.Control type="password" placeholder="Password"
                 value={this.state.password}
                 onChange={(event)=>this.setState({password:event.target.value})}
-                required minLength="6"/>
+                // required 
+                minLength="6"/>
+                <span style={{color: "red"}}>{this.state.errorpassword}</span>
               </Form.Group>
               <Form.Group controlId="formBasicCheckbox">
                 <Form.Check type="checkbox" label="Check me out" />
