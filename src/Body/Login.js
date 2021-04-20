@@ -2,6 +2,7 @@ import React, { Component, state, login,chklogin,handleValidation} from 'react'
 import {Form ,Button, Jumbotron,Row,Col} from 'react-bootstrap'
 
 import axios from 'axios'
+import ErrorIcon from '@material-ui/icons/Error';
 class Login extends Component{
 
   state={
@@ -102,18 +103,18 @@ class Login extends Component{
                 // required
 
                 />
-                <span style={{color: "red"}}>{this.state.erroremail}</span>
+                <span style={{color: "red"}}><ErrorIcon color="danger"/>{this.state.erroremail}</span>
                 
               </Form.Group>
 
               <Form.Group controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password"
+                <Form.Control type="password" placeholder="*********"
                 value={this.state.password}
                 onChange={(event)=>this.setState({password:event.target.value})}
                 // required 
                 minLength="6"/>
-                <span style={{color: "red"}}>{this.state.errorpassword}</span>
+                <span style={{color: "red"}}><ErrorIcon color="danger"/>{this.state.errorpassword}</span>
               </Form.Group>
               <Form.Group controlId="formBasicCheckbox">
                 <Form.Check type="checkbox" label="Check me out" />
