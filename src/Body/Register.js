@@ -1,4 +1,4 @@
-import React, { Component,state, register } from 'react'
+import React, { Component,state, register,handleValidation } from 'react'
 import{Form,Button} from 'react-bootstrap'
 import {Row, Col} from 'reactstrap'
 import axios from 'axios'
@@ -13,11 +13,52 @@ class Register extends Component {
     userType:"normaluser",
     phone:"",
     message:'',
+
+    genderError:'',
+    usernameError:'',
+    phoneError:'',
+    emailError:'',
+    passwordError:'',
     errors:{}
   }
+  handleValidation=()=>{
+    let usernameError='';
+    let genderError='';
+    
+    let phoneError='';
+    let emailError='';
+    let passwordError='';
+
+    if(!this.state.username){
+      usernameError='Full Name cannot be Empty';
+    }else if(!this.state.gender){
+      genderError='Gender cannot be Empty';
+    }
+    else if(!this.state.phone){
+        phoneError='Contact Number cannot be Empty';
+    }else if(!this.state.email){
+        emailError='Email cannot be Empty';
+    }else if(!this.state.email.includes('@')){
+        emailError='Invalid Email Address';
+    }else if(!this.state.password){
+        passwordError='Password cannot be Empty';
+    }if(usernameError||genderError||phoneError||emailError||passwordError){
+        this.setState({
+          usernameError,
+            genderError,
+            phoneError,
+            emailError,
+            passwordError
+        })
+        return false;
+    }
+    return true;
+ };
   
   register=(e)=>{
     e.preventDefault();
+    const isValid=this.handleValidation();
+    if(isValid){
   const senduserData={
     email:this.state.email,
     password:this.state.password,
@@ -44,6 +85,7 @@ class Register extends Component {
     
   })
 }
+}
   
 
     render(){
@@ -69,24 +111,11 @@ class Register extends Component {
                         </div>
                       
                           <Form onSubmit={this.register} className="mt-2" >
-                <Form.Group controlId="formBasicEmail">
-                  <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" value={this.state.email}
-                  onChange={(event)=>this.setState({email:event.target.value})} />
-                 
-                </Form.Group>
-
-                <Form.Group controlId="formBasicPassword">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password"  
-                  value={this.state.password}
-                  onChange={(event)=>this.setState({password:event.target.value})}/>
-                </Form.Group>
-
-                <Form.Group controlId="forFullname">
+                          <Form.Group controlId="forFullname">
                   <Form.Label>Full Name</Form.Label>
                   <Form.Control type="text" placeholder="Full name" value={this.state.username}
                   onChange={(event)=>this.setState({username:event.target.value})}/>
+                  <span style={{color: "red"}}>{this.state.usernameError}</span>
                 </Form.Group>
                 <Form.Group controlId="foruserType">
                   
@@ -101,14 +130,32 @@ class Register extends Component {
                                     <option value="FeMale" selected={this.state.gender==="FeMale"}>FeMale</option>
                                     <option value="Others" selected={this.state.gender==="Others"}>Others</option>
                                     </Input>
+                                    <span style={{color: "red"}}>{this.state.genderError}</span>
                 </Form.Group>
                 <Form.Group controlId="forPhone">
                   <Form.Label>Phone</Form.Label>
                   <Form.Control type="text" placeholder="Phone number" value={this.state.phone}
                   onChange={(event)=>this.setState({phone:event.target.value})}/>
+                  <span style={{color: "red"}}>{this.state.phoneError}</span>
                 </Form.Group>
+                <Form.Group controlId="formBasicEmail">
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control type="email" placeholder="Enter email" value={this.state.email}
+                  onChange={(event)=>this.setState({email:event.target.value})} />
+                 <span style={{color: "red"}}>{this.state.emailError}</span>
+                </Form.Group>
+
+                <Form.Group controlId="formBasicPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control type="password" placeholder="Password"  
+                  value={this.state.password}
+                  onChange={(event)=>this.setState({password:event.target.value})}/>
+                  <span style={{color: "red"}}>{this.state.passwordError}</span>
+                </Form.Group>
+
+                
                 <Button variant="primary" type="submit">
-                  Submit
+                  Register
                 </Button>
               </Form>
               </div>
