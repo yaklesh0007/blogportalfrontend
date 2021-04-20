@@ -71,7 +71,7 @@ export default class AddBlog extends Component {
                        <option value="Personal development" selected={this.state.category==="Personal development"}>Personal development</option>
                        <option value="Science and technology" selected={this.state.category==="Science and technology"}>Science and technology</option>
                        <option value="Astrology" selected={this.state.category==="Astrology"}>Astrology</option>
-                       <option value="Political" selected={this.state.category==="Political"}>Political</option>
+                       <option value="Political" selected={this.state.category==="Political"} >Political</option>
                        </Input>
       </FormGroup>
       <FormGroup>

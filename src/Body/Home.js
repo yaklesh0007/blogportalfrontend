@@ -1,10 +1,10 @@
-import React, { Component , state , deleteblog,addcomment,inputhandler,addlike} from 'react'
+import React, { Component , state , deleteblog,addcomment,inputhandler,addlike,getdatafromcategory} from 'react'
 import {Card,CardBody,CardFooter,CardHeader,
     CardTitle,Col,UncontrolledDropdown,DropdownToggle,
     DropdownMenu,DropdownItem,CardText, Button
     ,CardImg
 ,Row} from 'reactstrap'
-import{Carousel}from 'react-bootstrap'
+import{Carousel,Container}from 'react-bootstrap'
 import {Link,Redirect } from 'react-router-dom';
 import  axios from 'axios'
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -21,6 +21,11 @@ export default class Home extends Component {
         userID:"",
         feedbacks:[]
         
+    }
+    inputhandler=(e)=>{
+        this.setState({
+            [e.target.name]:e.target.value
+        })
     }
     componentDidMount(){
         axios.get("http://localhost:90/post/all", this.state.config)
@@ -44,6 +49,19 @@ export default class Home extends Component {
         .catch((e)=>{
             console.log(e)
         })
+    }
+    getdatafromcategory=(category)=>{
+        axios.get('http://localhost:90/getfrom/'+category)
+        .then(response=>{
+            console.log(response)
+            this.setState({
+                    blogs:response.data.data
+            })
+        })
+        .catch(er=>{
+            console.log(er)
+        })
+
     }
     deleteblog = (id,userID) =>{
         
@@ -79,45 +97,53 @@ export default class Home extends Component {
             return <Redirect to='/login'/>
         }
         return (
+            
+            
             <div>
-             <div className="mb-4">
-      <div className="card text-center">
-                <h3 className="text-primary">Feedbacks of Some users</h3>
-      </div>
-      <Carousel >
-  <Carousel.Item interval={2000}>
-    <img height="200px"
-      className="d-block w-100 "
-      src="https://cdn.pixabay.com/photo/2014/02/27/16/10/tree-276014_960_720.jpg"
-      alt="Nature"
-    />
-    <Carousel.Caption>
-      <h3 className="text-danger">First slide label</h3>
-      <p><i>Nulla vitae elit libero, a pharetra augue mollis interdum.</i></p>
-    </Carousel.Caption>
-  </Carousel.Item>
-  {
-    this.state.feedbacks.map((feedback)=>{
-        return(
-  <Carousel.Item interval={2000}>
-    <img height="200px"
-      className="d-block w-100"
-      src={'http://localhost:90/images/'+feedback.userID.image}
-      alt="Second slide"
-    />
-    <Carousel.Caption>
-      <h3 className="text-danger">{feedback.title}</h3>
-      <p><i>{feedback.description}</i></p>
-    </Carousel.Caption>
-  </Carousel.Item>
-  )
-})
-}
-</Carousel>
-      </div>
-            <div>
-               
-      {
+            <Container fluid>
+            
+            <Row>
+            <Col xs="3">
+                            
+                <div className="mb-4">
+                    <div className="card text-center">
+                                <h3 className="text-primary">Some useful Quates</h3>
+                    </div>
+                    <Carousel >
+                <Carousel.Item interval={2000}>
+                    <img height="200px"
+                    className="d-block w-100 "
+                    src="https://cdn.pixabay.com/photo/2014/02/27/16/10/tree-276014_960_720.jpg"
+                    alt="Nature"
+                    />
+                    <Carousel.Caption>
+                    <h3 className="text-danger">First slide label</h3>
+                    <p><i>Nulla vitae elit libero, a pharetra augue mollis interdum.</i></p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+                {
+                    this.state.feedbacks.map((feedback)=>{
+                        return(
+                <Carousel.Item interval={2000}>
+                    <img height="200px"
+                    className="d-block w-100"
+                    src={'http://localhost:90/images/'+feedback.userID.image}
+                    alt="Second slide"
+                    />
+                    <Carousel.Caption>
+                    <h3 className="text-danger">{feedback.title}</h3>
+                    <p><i>{feedback.description}</i></p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+                )
+                })
+                }
+                </Carousel>
+                    </div>
+                                </Col>
+          
+                <Col>
+                {
           this.state.blogs.map((blog)=>{
               return (
                   
@@ -165,7 +191,7 @@ export default class Home extends Component {
             <Col xs="2">
                 <Button color="danger" onClick={this.addlike.bind(this,blog._id)}><FavoriteIcon className="mr-2"></FavoriteIcon> Love</Button>
             </Col>
-            <Col xs="8">
+            <Col xs="6">
                 
             </Col>
             <Col xs="2">
@@ -183,7 +209,46 @@ export default class Home extends Component {
               )
          })
       }
-      </div>
+                </Col>
+                <Col xs="3">
+
+                    <Card className="jumbotron">
+                   
+                    <UncontrolledDropdown>
+                            <DropdownToggle caret color="info">
+                                Select Categories
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem header><Button color="warning" 
+                                onClick={this.getdatafromcategory.bind(this,"Social")}>
+                                Social</Button></DropdownItem>
+                               
+                                <DropdownItem><Button 
+                                onClick={this.getdatafromcategory.bind(this,"IT")} color="warning">IT</Button></DropdownItem>
+                                <DropdownItem divider />
+                                <DropdownItem><Button color="warning"
+                                onClick={this.getdatafromcategory.bind(this,"Personal development")}>
+                                    Personal development</Button></DropdownItem>
+                                    <DropdownItem><Button color="warning"
+                                    onClick={this.getdatafromcategory.bind(this,"Science and technology")}>
+                                    Science and technology</Button></DropdownItem>
+                                    <DropdownItem><Button color="warning"
+                                     onClick={this.getdatafromcategory.bind(this,"Astrology")}
+                                     >Astrology</Button></DropdownItem>
+                                    <DropdownItem><Button color="warning"
+                                    onClick={this.getdatafromcategory.bind(this,"Political")}>
+                                    Political</Button></DropdownItem>
+                            </DropdownMenu>
+                            </UncontrolledDropdown>
+                   
+                    </Card>
+                </Col>
+                
+            </Row>
+           
+               
+            </Container> 
+      
      
             </div>
         )

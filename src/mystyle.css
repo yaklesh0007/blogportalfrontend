@@ -13,6 +13,24 @@
   .imagecenter{
     display: inline-block;
   }
+  a.btn.btn-primary {
+    float: left;
+    width: 130px;
+}
+button.btn.btn-danger {
+  display: flex;
+}
+
+.rounded-circle {
+  border-radius: 5%!important;
+  border-style: groove;
+}
+
+
+img.rounded-circle {
+  margin-left: 60px;
+  margin-top: 8px;
+}
   
   .img_post{
     padding: 10px;
