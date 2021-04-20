@@ -1,4 +1,4 @@
-import React, { Component,state,inputhandler,addfeedback } from 'react'
+import React, { Component,state,inputhandler,addfeedback,handleValidation } from 'react'
 import {Row,Col,CardImg, CardHeader,Form, FormGroup, Label, Input, Button} from 'reactstrap'
 import TitleIcon from '@material-ui/icons/Title';
 import{Redirect} from 'react-router-dom'
@@ -14,8 +14,31 @@ export default class Contact extends Component {
       message:'',
       config : {
         headers : {'authorization': `Bearer ${localStorage.getItem('token')}`}
+    },
+    titleError:'',
+    descriptionError:''
     }
+    handleValidation=()=>{
+      let titleError='';
+      let descriptionError='';
+      
+      
+      if(!this.state.title){
+        titleError='title cannot be Empty';
+    }else if(!this.state.description){
+      descriptionError='Description cannot be Empty';
     }
+    if(titleError||descriptionError){
+      this.setState({
+        titleError,
+        descriptionError
+      })
+      return false;
+    }
+    return true;
+    
+    }
+
     inputhandler=(e)=>{
       this.setState({
           [e.target.name]:e.target.value
@@ -23,6 +46,8 @@ export default class Contact extends Component {
   }
   addfeedback=(e)=>{
     e.preventDefault();
+    const isValid=this.handleValidation();
+  if(isValid){
     axios.post('http://localhost:90/addfeedback',this.state ,this.state.config)
     .then((responce)=>{
       console.log(responce.data.data)
@@ -35,6 +60,7 @@ export default class Contact extends Component {
       console.log(err)
       
     })
+  }
   }
 
     render() {
@@ -54,21 +80,15 @@ export default class Contact extends Component {
                       <p className="text-success">{this.state.message}</p>
                     </CardHeader>
                     <Form className="mt-4">
-                    {/* <FormGroup row>
-                      <Label for="exampleEmail" sm={2} ><EmailIcon color="secondary"/>Email</Label>
-                      <Col sm={10}>
-                        <Input type="email" name="email" id="exampleEmail" 
-                        placeholder="Someone@gmail.com" required="true"
-                        value={this.state.email} onChange={this.inputhandler} 
-                        />
-                      </Col>
-                    </FormGroup> */}
+                    
                     <FormGroup row>
                       <Label for="exampleEmail2" sm={2}><TitleIcon color="secondary"/>Title</Label>
                       <Col sm={10}>
                         <Input type="text" name="title" id="exampleEmail2" placeholder="Enter Title" 
                         value={this.state.title} onChange={this.inputhandler}  required="true"/>
                       </Col>
+                        <span style={{color: "red"}}>{this.state.titleError}</span>
+
                     </FormGroup>
                     <FormGroup row>
                       <Label for="exampleEmail2" sm={2}>
@@ -79,6 +99,8 @@ export default class Contact extends Component {
                         value={this.state.description} onChange={this.inputhandler} 
                         />
                       </Col>
+                          <span style={{color: "red"}}>{this.state.descriptionError}</span>
+
                     </FormGroup>
                     <Button type="submit" className="float-right" color="primary"
                     onClick={this.addfeedback}>Send Feedback</Button>
