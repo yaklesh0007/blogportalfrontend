@@ -149,6 +149,10 @@ const Header = (props) => {
               <NavLink href="/addblog" activeClassName="navbar__link--active"
               active={window.location.pathname === '/addblog'}><PostAddIcon/>Add blog</NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink href="/about" activeClassName="navbar__link--active"
+              active={window.location.pathname === '/about'}><InfoIcon/>About Us</NavLink>
+            </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
                 More
